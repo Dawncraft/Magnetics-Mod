@@ -1,0 +1,55 @@
+buildscript {
+    repositories {
+        // maven { url = "https://lss233.com/artifactory/jcenter" }
+        // maven { url = "https://lss233.com/artifactory/minecraft" }
+        jcenter()
+        maven { url = "https://files.minecraftforge.net/maven" }
+    }
+    dependencies {
+        classpath 'net.minecraftforge.gradle:ForgeGradle:2.3-SNAPSHOT'
+    }
+}
+apply plugin: 'net.minecraftforge.gradle.forge'
+// Only edit below this line, the above code adds and enables the necessary things for Forge to be setup.
+
+version = '1.0.0'
+group = 'io.github.dawncraft'
+archivesBaseName = 'magnetics'
+
+sourceCompatibility = targetCompatibility = '1.8'
+compileJava {
+    sourceCompatibility = targetCompatibility = '1.8'
+}
+
+[compileJava, compileTestJava, javadoc]*.options*.encoding = 'UTF-8'
+
+minecraft {
+    version = "1.12.2-14.23.5.2847"
+    mappings = "stable_39"
+    runDir = "run"
+    // makeObfSourceJar = false
+}
+
+dependencies {
+
+}
+
+processResources {
+    inputs.property "version", project.version
+    inputs.property "mcversion", project.minecraft.version
+
+    from(sourceSets.main.resources.srcDirs) {
+        include 'mcmod.info'
+        expand 'version':project.version, 'mcversion':project.minecraft.version
+    }
+
+    from(sourceSets.main.resources.srcDirs) {
+        exclude 'mcmod.info'
+    }
+}
+
+jar {
+    manifest {
+        attributes 'FMLAT': 'magnetics_at.cfg'
+    }
+}

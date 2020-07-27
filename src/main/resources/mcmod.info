@@ -1,0 +1,16 @@
+[
+{
+  "modid": "magnetics",
+  "name": "Magnetics Mod",
+  "description": "A mod adds something about magnetism into the game.",
+  "version": "${version}",
+  "mcversion": "${mcversion}",
+  "url": "",
+  "updateUrl": "",
+  "authorList": ["QingChenW"],
+  "credits": "The Forge and FML guys, for making this example",
+  "logoFile": "",
+  "screenshots": [],
+  "dependencies": []
+}
+]

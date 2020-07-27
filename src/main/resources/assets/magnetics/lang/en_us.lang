@@ -1,0 +1,17 @@
+itemGroup.Magnetism=Magnetism
+
+item.magnet.name=magnet
+item.magnetIngot.name=Magnet ingot
+item.magnetStick.name=Magnet stick
+item.magnetBall.name=Magnet ball
+item.magnetCard.name=Magnet card
+
+tile.magnetOre.name=Magnet ore
+tile.magnetBlock.name=Magnet block
+
+item.magnetSword.name=Magnet Sword
+
+item.magnetHelmet.name=Magnet Helmet
+item.magnetChestplate.name=Magnet Chestplate
+item.magnetLeggings.name=Magnet Leggings
+item.magnetBoots.name=Magnet Boots
