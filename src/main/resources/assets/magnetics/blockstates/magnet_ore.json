@@ -1,5 +1,5 @@
 {
     "variants": {
-        "normal": { "model": "dawncraft:magnet_ore" }
+        "normal": { "model": "magnetics:magnet_ore" }
     }
 }

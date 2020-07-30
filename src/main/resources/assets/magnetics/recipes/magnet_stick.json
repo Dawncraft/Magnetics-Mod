@@ -5,15 +5,15 @@
         "#"
     ],
     "key": {
-    "#": [
-        {
-            "type": "forge:ore_dict",
-            "ore": "ingotMagnet"
-        }
-    ]
+        "#": [
+            {
+                "type": "forge:ore_dict",
+                "ore": "ingotMagnet"
+            }
+        ]
     },
     "result": {
-        "item": "dawncraft:magnet_stick",
+        "item": "magnetics:magnet_stick",
         "count": 4
     }
 }

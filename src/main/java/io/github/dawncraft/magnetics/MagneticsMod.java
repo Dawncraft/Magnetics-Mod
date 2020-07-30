@@ -1,6 +1,7 @@
 package io.github.dawncraft.magnetics;
 
-import net.minecraft.init.Blocks;
+import org.apache.logging.log4j.Logger;
+
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.common.Mod.EventHandler;
 import net.minecraftforge.fml.common.Mod.Instance;
@@ -11,8 +12,6 @@ import net.minecraftforge.fml.common.event.FMLInterModComms.IMCEvent;
 import net.minecraftforge.fml.common.event.FMLPostInitializationEvent;
 import net.minecraftforge.fml.common.event.FMLPreInitializationEvent;
 import net.minecraftforge.fml.common.event.FMLServerStartingEvent;
-
-import org.apache.logging.log4j.Logger;
 
 /**
  * Magnetics Mod For Minecraft with Forge Mod Loader.
@@ -26,8 +25,8 @@ public class MagneticsMod
     public static final String MODID = "magnetics";
     public static final String NAME = "Magnetics Mod";
     public static final String VERSION = "${version}";
-    public static final String GUI_FACTORY = "io.github.dawncraft.magnetics.client.gui.GuiFactory";
-    
+    public static final String GUI_FACTORY = "io.github.dawncraft.magnetics.client.GuiFactory";
+
     @Instance(MagneticsMod.MODID)
     public static MagneticsMod instance;
     @SidedProxy(clientSide = "io.github.dawncraft.magnetics.client.ClientProxy", serverSide = "io.github.dawncraft.magnetics.CommonProxy")
@@ -35,10 +34,10 @@ public class MagneticsMod
 
     private static Logger logger;
 
-	@EventHandler
+    @EventHandler
     public void preInit(FMLPreInitializationEvent event)
     {
-    	logger = event.getModLog();
+        logger = event.getModLog();
         proxy.preInit(event);
     }
 
@@ -71,9 +70,9 @@ public class MagneticsMod
     {
         // TODO 签名校验未实现
     }
-    
+
     public static Logger logger()
     {
-		return logger;
-	}
+        return logger;
+    }
 }

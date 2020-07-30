@@ -6,10 +6,15 @@ import javax.annotation.Nullable;
 
 import io.github.dawncraft.magnetics.block.ModBlocks;
 import io.github.dawncraft.magnetics.tileentity.TileEntityMagnetDoor;
+import net.minecraft.advancements.CriteriaTriggers;
 import net.minecraft.block.Block;
+import net.minecraft.block.BlockDoor;
+import net.minecraft.block.state.IBlockState;
 import net.minecraft.client.resources.I18n;
 import net.minecraft.client.util.ITooltipFlag;
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.entity.player.EntityPlayerMP;
+import net.minecraft.item.ItemBlock;
 import net.minecraft.item.ItemDoor;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
@@ -21,11 +26,12 @@ import net.minecraft.util.StringUtils;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.text.TextFormatting;
 import net.minecraft.world.World;
+import net.minecraftforge.common.util.Constants;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 
 /**
- *
+ * Magnet door
  *
  * @author QingChenW
  */
@@ -35,7 +41,7 @@ public class ItemMagnetDoor extends ItemDoor
     {
         super(ModBlocks.MAGNET_DOOR);
     }
-
+    
     @Override
     public EnumActionResult onItemUse(EntityPlayer player, World world, BlockPos pos, EnumHand hand, EnumFacing facing, float hitX, float hitY, float hitZ)
     {
@@ -43,8 +49,10 @@ public class ItemMagnetDoor extends ItemDoor
         {
             if (!world.isRemote)
             {
-                Block block = world.getBlockState(pos).getBlock();
-                if (!block.isReplaceable(world, pos)) pos = pos.offset(facing);
+                IBlockState blockState = world.getBlockState(pos);
+                Block block = blockState.getBlock();
+                if (block != ModBlocks.MAGNET_DOOR) pos = pos.offset(facing);
+                
                 TileEntity tileentity = world.getTileEntity(pos);
                 if (tileentity instanceof TileEntityMagnetDoor)
                 {
@@ -53,9 +61,13 @@ public class ItemMagnetDoor extends ItemDoor
                     if (stack.hasTagCompound())
                     {
                         NBTTagCompound nbt = stack.getTagCompound();
-                        if (nbt.hasKey("UUID", 8))
+                        if (nbt.hasKey("UUID", Constants.NBT.TAG_STRING))
                         {
                             tileentityMagnetDoor.setUUID(nbt.getString("UUID"));
+                        }
+                        else if (nbt.hasKey("BlockEntityTag", Constants.NBT.TAG_COMPOUND))
+                        {
+                            ItemBlock.setTileEntityNBT(world, player, pos, stack);
                         }
                     }
                 }

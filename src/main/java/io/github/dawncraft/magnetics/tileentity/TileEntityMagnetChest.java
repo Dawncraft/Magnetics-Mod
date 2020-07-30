@@ -3,11 +3,9 @@ package io.github.dawncraft.magnetics.tileentity;
 import java.util.List;
 
 import io.github.dawncraft.magnetics.MagneticsMod;
-import net.minecraft.entity.Entity;
 import net.minecraft.entity.item.EntityItem;
 import net.minecraft.item.ItemStack;
 import net.minecraft.tileentity.TileEntityChest;
-import net.minecraft.util.math.AxisAlignedBB;
 import net.minecraft.util.math.MathHelper;
 
 /**
@@ -21,20 +19,19 @@ public class TileEntityMagnetChest extends TileEntityChest
 
     public boolean insertStackFromEntity(EntityItem entityItem)
     {
-        if (entityItem == null || entityItem.isDead || entityItem.getItem() == null) return false;
+        if (entityItem == null || entityItem.isDead) return false;
         else
         {
             ItemStack itemStack = entityItem.getItem().copy();
             ItemStack newItemStack = this.insertStack(itemStack);
 
-            if (newItemStack != null && newItemStack.getCount() > 0)
-                entityItem.setItem(newItemStack);
-            else
+            if (newItemStack.isEmpty())
             {
                 entityItem.setDead();
                 return true;
             }
-
+            
+            entityItem.setItem(newItemStack);
             return false;
         }
     }
@@ -43,11 +40,11 @@ public class TileEntityMagnetChest extends TileEntityChest
     {
         int j = this.getSizeInventory();
 
-        for (int k = 0; k < j && itemStack != null && itemStack.getCount() > 0; ++k)
+        for (int k = 0; k < j && !itemStack.isEmpty(); ++k)
             itemStack = this.tryInsertStackToSlot(itemStack, k);
 
-        if (itemStack != null && itemStack.getCount() <= 0)
-            itemStack = null;
+        if (itemStack.isEmpty())
+            itemStack = ItemStack.EMPTY;
 
         return itemStack;
     }
@@ -60,13 +57,13 @@ public class TileEntityMagnetChest extends TileEntityChest
         {
             boolean changed = false;
 
-            if (slotStack == null || slotStack.getCount() <= 0)
+            if (slotStack.isEmpty())
             {
                 int max = Math.min(itemStack.getMaxStackSize(), this.getInventoryStackLimit());
                 if (itemStack.getCount() <= max)
                 {
                     this.setInventorySlotContents(slot, itemStack);
-                    itemStack = null;
+                    itemStack = ItemStack.EMPTY;
                 }
                 else
                     this.setInventorySlotContents(slot, itemStack.splitStack(max));
@@ -75,7 +72,7 @@ public class TileEntityMagnetChest extends TileEntityChest
             else if (ItemStack.areItemsEqual(slotStack, itemStack) && ItemStack.areItemStackTagsEqual(slotStack, itemStack))
             {
                 int max = Math.min(itemStack.getMaxStackSize(), this.getInventoryStackLimit());
-                if (max > slotStack.getCount())
+                if (slotStack.getCount() < max)
                 {
                     int l = Math.min(itemStack.getCount(), max - slotStack.getCount());
                     itemStack.shrink(1);
@@ -84,7 +81,8 @@ public class TileEntityMagnetChest extends TileEntityChest
                 }
             }
 
-            if (changed) this.markDirty();
+            if (changed)
+                this.markDirty();
         }
         return itemStack;
     }
@@ -98,44 +96,38 @@ public class TileEntityMagnetChest extends TileEntityChest
     }
 
     /**
+     * Come from Trapcraft(<a>https://github.com/percivalalb/Trapcraft</a>)
+     * 
      * @author ProPercivalalb
      */
     public void pullItemsIn()
     {
-        List<EntityItem> entity = this.world.getEntitiesWithinAABB(EntityItem.class, new AxisAlignedBB(this.pos, this.pos).expand(2D, 1.0D, 2D));
+        double centreX = this.pos.getX() + 0.5D;
+        double centreY = this.pos.getY() + 0.5D;
+        double centreZ = this.pos.getZ() + 0.5D;
 
-        if (!entity.isEmpty())
+        List<EntityItem> entities = this.world.getEntities(EntityItem.class, item -> item.getDistanceSq(centreX, centreY, centreZ) < 16D);
+
+        for (EntityItem itemEntity : entities)
         {
-            for (int i = 0; i < entity.size(); i++)
-            {
-                Entity target = entity.get(i);
-                if (!(target instanceof EntityItem)) continue;
+            double diffX = -itemEntity.posX + centreX;
+            double diffY = -itemEntity.posY + centreY;
+            double diffZ = -itemEntity.posZ + centreZ;
+            double speedMultiper = 0.05D;
+            double d11 = itemEntity.posX - centreX;
+            double d12 = itemEntity.posZ - centreZ;
+            double horizDiffSq = MathHelper.sqrt(diffX * diffX + diffZ * diffZ);
+            double angle = Math.asin(diffX / horizDiffSq);
+            double d15 = Math.abs(MathHelper.sin((float) angle) * speedMultiper);
+            double d16 = Math.abs(MathHelper.cos((float) angle) * speedMultiper);
+            d15 = diffX <= 0.0D ? -d15 : d15;
+            d16 = diffZ <= 0.0D ? -d16 : d16;
+            if (MathHelper.abs((float) (itemEntity.motionX + itemEntity.motionY + itemEntity.motionZ)) >= 0.2D)
+                continue;
 
-                EntityItem entityItem = (EntityItem) target;
-                double centreX = this.pos.getX() + 0.5D;
-                double centreY = this.pos.getY() + 0.5D;
-                double centreZ = this.pos.getZ() + 0.5D;
-                double d7 = centreX <= entityItem.posX ? -(entityItem.posX - centreX) : centreX - entityItem.posX;
-                double d8 = centreY <= entityItem.posY ? -(entityItem.posY - centreY) : centreY - entityItem.posY;
-                double d9 = centreZ <= entityItem.posZ ? -(entityItem.posZ - centreZ) : centreZ - entityItem.posZ;
-                double speedMultiper = 0.05D;
-                double d11 = entityItem.posX - centreX;
-                double d12 = entityItem.posZ - centreZ;
-                double d13 = Math.sqrt(d7 * d7 + d9 * d9);
-                double d14 = Math.asin(d7 / d13);
-                double d15 = MathHelper.sin((float)d14) * speedMultiper;
-                double d16 = MathHelper.cos((float)d14) * speedMultiper;
-                d16 = d9 <= 0.0D ? -d16 : d16;
-
-                if (MathHelper.abs((float) (entityItem.motionX + entityItem.motionY + entityItem.motionZ)) >= 0.1D)
-                    continue;
-
-                if (d7 != 0.0D && MathHelper.abs((float) entityItem.motionZ) < 0.1D)
-                    entityItem.motionX = d15;
-
-                if (d9 != 0.0D && MathHelper.abs((float) entityItem.motionZ) < 0.1D)
-                    entityItem.motionZ = d16;
-            }
+            itemEntity.motionX = d15;
+            itemEntity.motionY = diffY >= 0.7 ? speedMultiper * 2 : itemEntity.motionY;
+            itemEntity.motionZ = d16;
         }
     }
 

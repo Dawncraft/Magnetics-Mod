@@ -14,7 +14,11 @@
             "item": "minecraft:dye",
             "data": 4
         },
-        "R": { "item": "minecraft:redstone" }
+        "R": {
+            "item": "minecraft:redstone"
+        }
     },
-    "result": { "item": "dawncraft:magnet" }
+    "result": {
+        "item": "magnetics:magnet"
+    }
 }

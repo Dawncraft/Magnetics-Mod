@@ -1,6 +1,6 @@
 {
     "parent": "block/rail_raised_ne",
     "textures": {
-        "rail": "dawncraft:blocks/magnet_rail"
+        "rail": "magnetics:blocks/magnet_rail"
     }
 }

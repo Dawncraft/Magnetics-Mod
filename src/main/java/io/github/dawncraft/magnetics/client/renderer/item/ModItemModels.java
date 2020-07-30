@@ -27,6 +27,7 @@ public class ModItemModels
     @SubscribeEvent
     public static void registerItemModels(ModelRegistryEvent event)
     {
+        registerBlock(ModBlocks.MAGNET_ORE);
         registerBlock(ModBlocks.MAGNET_BLOCK);
 
         registerBlock(ModBlocks.MAGNET_CHEST);
@@ -54,7 +55,7 @@ public class ModItemModels
         registerItem(ModItems.MAGNET_BOOTS);
 
         // TEISR
-        registerTileEntityItemStackRenderer(ModBlocks.MAGNET_CHEST, ModTileEntityItemStackRenderer.instance);
+        registerTEISR(ModBlocks.MAGNET_CHEST, ModTileEntityItemStackRenderer.instance);
     }
 
     @SubscribeEvent
@@ -113,7 +114,7 @@ public class ModItemModels
      * @param item  the item to register
      * @param teisr the teisr of item
      */
-    private static void registerTileEntityItemStackRenderer(Item item, TileEntityItemStackRenderer teisr)
+    private static void registerTEISR(Item item, TileEntityItemStackRenderer teisr)
     {
         item.setTileEntityItemStackRenderer(teisr);
     }
@@ -124,8 +125,8 @@ public class ModItemModels
      * @param block the block to register
      * @param teisr the teisr of block
      */
-    private static void registerTileEntityItemStackRenderer(Block block, TileEntityItemStackRenderer teisr)
+    private static void registerTEISR(Block block, TileEntityItemStackRenderer teisr)
     {
-        registerTileEntityItemStackRenderer(Item.getItemFromBlock(block), teisr);
+        registerTEISR(Item.getItemFromBlock(block), teisr);
     }
 }

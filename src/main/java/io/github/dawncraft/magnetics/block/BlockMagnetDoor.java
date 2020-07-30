@@ -11,6 +11,7 @@ import net.minecraft.block.material.MapColor;
 import net.minecraft.block.material.Material;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.init.Items;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
@@ -45,7 +46,7 @@ public class BlockMagnetDoor extends BlockDoor implements ITileEntityProvider
     {
         return MapColor.IRON;
     }
-
+    
     @Override
     public boolean hasTileEntity(IBlockState state)
     {
@@ -111,40 +112,62 @@ public class BlockMagnetDoor extends BlockDoor implements ITileEntityProvider
         }
     }
 
-    // TODO 重制
     @Override
     public boolean onBlockActivated(World world, BlockPos pos, IBlockState state, EntityPlayer player, EnumHand hand, EnumFacing facing, float hitX, float hitY, float hitZ)
     {
-        if (!world.isRemote)
+        if (!world.isRemote && hand == EnumHand.MAIN_HAND)
         {
             BlockPos newPos = state.getValue(HALF) == BlockDoor.EnumDoorHalf.UPPER ? pos.down() : pos;
             IBlockState newState = world.getBlockState(newPos);
             if (newState.getBlock() == this)
             {
                 boolean canUnlock = true;
-                TileEntity tileentity = world.getTileEntity(newPos);
-                if (tileentity instanceof TileEntityMagnetDoor)
+                if (true) // TODO 被红石激活
                 {
-                    TileEntityMagnetDoor tileentityMagnetDoor = (TileEntityMagnetDoor) tileentity;
-                    ItemStack itemStack = player.getHeldItem(hand);
-                    if (itemStack != null && itemStack.getItem() == ModItems.MAGNET_CARD && itemStack.hasTagCompound())
+                    canUnlock = false;
+                    TileEntity tileentity = world.getTileEntity(newPos);
+                    if (tileentity instanceof TileEntityMagnetDoor)
                     {
-                        NBTTagCompound nbt = itemStack.getTagCompound();
-                        String UUID = nbt.getString("UUID");
-                        if (!StringUtils.isNullOrEmpty(UUID))
+                        TileEntityMagnetDoor tileentityMagnetDoor = (TileEntityMagnetDoor) tileentity;
+                        if (tileentityMagnetDoor.isLocked())
                         {
-                            if (player.isSneaking())
+                            ItemStack itemStack = player.getHeldItem(hand);
+                            if (itemStack.getItem() == ModItems.MAGNET_CARD && itemStack.hasTagCompound())
                             {
-                                if (!tileentityMagnetDoor.isLocked())
+                                NBTTagCompound nbt = itemStack.getTagCompound();
+                                String UUID = nbt.getString("UUID");
+                                if (!StringUtils.isNullOrEmpty(UUID))
                                 {
-                                    tileentityMagnetDoor.setUUID(UUID);
-                                    player.sendStatusMessage(new TextComponentTranslation("container.lock", this.getLocalizedName()), true);
-                                    return true;
+                                    if (!player.isSneaking())
+                                    {
+                                        canUnlock = UUID.equals(tileentityMagnetDoor.getUUID());
+                                    }
+                                    else
+                                    {
+                                        tileentityMagnetDoor.resetUUID();
+                                        player.sendStatusMessage(new TextComponentTranslation("container.unlock", this.getLocalizedName()), true);
+                                        return true;
+                                    }
                                 }
                             }
-                            else
+                        }
+                        else
+                        {
+                            canUnlock = true;
+                            ItemStack itemStack = player.getHeldItem(hand);
+                            if (itemStack.getItem() == ModItems.MAGNET_CARD && itemStack.hasTagCompound())
                             {
-                                canUnlock = UUID.equals(tileentityMagnetDoor.getUUID());
+                                NBTTagCompound nbt = itemStack.getTagCompound();
+                                String UUID = nbt.getString("UUID");
+                                if (!StringUtils.isNullOrEmpty(UUID))
+                                {
+                                    if (player.isSneaking())
+                                    {
+                                        tileentityMagnetDoor.setUUID(UUID);
+                                        player.sendStatusMessage(new TextComponentTranslation("container.lock", this.getLocalizedName()), true);
+                                        return true;
+                                    }
+                                }
                             }
                         }
                     }
@@ -152,9 +175,9 @@ public class BlockMagnetDoor extends BlockDoor implements ITileEntityProvider
                 if (canUnlock)
                 {
                     state = newState.cycleProperty(OPEN);
-                    world.setBlockState(newPos, state, 2);
+                    world.setBlockState(newPos, state, 10);
                     world.markBlockRangeForRenderUpdate(newPos, pos);
-                    world.playEvent(player, state.getValue(OPEN).booleanValue() ? this.getOpenSound() : this.getCloseSound(), pos, 0);
+                    world.playEvent(null, state.getValue(OPEN).booleanValue() ? this.getOpenSound() : this.getCloseSound(), pos, 0);
                     return true;
                 }
                 player.sendStatusMessage(new TextComponentTranslation("container.isLocked", this.getLocalizedName()), true);
@@ -167,8 +190,9 @@ public class BlockMagnetDoor extends BlockDoor implements ITileEntityProvider
     public void getDrops(NonNullList<ItemStack> drops, IBlockAccess world, BlockPos pos, IBlockState blockState, int fortune)
     {
         Random rand = world instanceof World ? ((World) world).rand : RANDOM;
+        
         Item item = this.getItemDropped(blockState, rand, fortune);
-        if (item != null)
+        if (item != Items.AIR)
         {
             ItemStack itemStack = new ItemStack(item);
             if (blockState.getValue(HALF) == BlockDoor.EnumDoorHalf.UPPER) pos = pos.down();

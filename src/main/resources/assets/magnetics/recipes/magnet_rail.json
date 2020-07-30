@@ -13,11 +13,11 @@
             "item": "minecraft:stick"
         },
         "M": {
-            "item": "dawncraft:magnet"
+            "item": "magnetics:magnet"
         }
     },
     "result": {
-        "item": "dawncraft:magnet_rail",
+        "item": "magnetics:magnet_rail",
         "count": 6
     }
 }

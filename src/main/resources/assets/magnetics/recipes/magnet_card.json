@@ -2,13 +2,13 @@
     "type": "forge:ore_shapeless",
     "ingredients": [
         {
-            "item": "minecraft:paper",
+            "item": "minecraft:paper"
         },
         {
-            "item": "minecraft:paper",
+            "item": "minecraft:paper"
         },
         {
-            "item": "minecraft:paper",
+            "item": "minecraft:paper"
         },
         {
             "type": "forge:ore_dict",
@@ -16,7 +16,7 @@
         }
     ],
     "result": {
-        "item": "dawncraft:magnet_card",
+        "item": "magnetics:magnet_card",
         "count": 1
     }
 }

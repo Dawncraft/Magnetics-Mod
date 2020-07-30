@@ -19,11 +19,14 @@ import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.text.TextFormatting;
 import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
+import net.minecraftforge.common.util.Constants;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 
 /**
- *
+ * A magnet card that can generate a random id and also can be written by other mods.
+ * <p>
+ * TODO 磁卡加入hideflag选项允许持有者隐藏一些信息,行为类似于原版
  *
  * @author QingChenW
  */
@@ -52,18 +55,18 @@ public class ItemMagnetCard extends Item
         ItemStack stack = player.getHeldItem(hand);
         if (!world.isRemote)
         {
-            if (!stack.hasTagCompound() || !stack.getTagCompound().hasKey("UUID", 8))
+            if (!stack.hasTagCompound() || !stack.getTagCompound().hasKey("UUID", Constants.NBT.TAG_STRING))
             {
                 ItemStack newStack = new ItemStack(ModItems.MAGNET_CARD);
-
                 NBTTagCompound nbt = new NBTTagCompound();
                 nbt.setString("UUID", UUID.randomUUID().toString());
                 nbt.setString("Owner", player.getName());
-                nbt.setString("Text", I18n.format(this.getTranslationKey() + ".owner", player.getName()));
+                nbt.setString("Text", "");
+                nbt.setTag("Data", new NBTTagCompound());
                 newStack.setTagCompound(nbt);
 
                 stack.shrink(1);
-                if (stack.getCount() <= 0)
+                if (stack.isEmpty())
                     return new ActionResult<>(EnumActionResult.SUCCESS, newStack);
                 if (!player.inventory.addItemStackToInventory(newStack.copy()))
                     player.dropItem(newStack, false);
@@ -82,19 +85,15 @@ public class ItemMagnetCard extends Item
         {
             NBTTagCompound nbt = stack.getTagCompound();
             String uuid = nbt.getString("UUID");
-            if (!StringUtils.isNullOrEmpty(uuid))
-            {
-                tooltip.add(TextFormatting.GRAY + I18n.format(this.getTranslationKey() + ".id", uuid));
-                String text = nbt.getString("Text");
-                if (!StringUtils.isNullOrEmpty(text))
-                {
-                    tooltip.add(I18n.format(this.getTranslationKey() + ".desc", text));
-                }
-            }
+            if (!StringUtils.isNullOrEmpty(uuid)) tooltip.add(TextFormatting.GRAY + I18n.format(this.getTranslationKey() + ".desc.id", uuid));
+            String name = nbt.getString("Owner");
+            if (!StringUtils.isNullOrEmpty(name)) tooltip.add(TextFormatting.GRAY + I18n.format(this.getTranslationKey() + ".desc.name", name));
+            String text = nbt.getString("Text");
+            if (!StringUtils.isNullOrEmpty(text)) tooltip.add(TextFormatting.GRAY + I18n.format(this.getTranslationKey() + ".desc.text", text));
         }
         else
         {
-            tooltip.add(TextFormatting.GRAY + I18n.format(this.getTranslationKey() + ".null"));
+            tooltip.add(TextFormatting.GRAY + I18n.format(this.getTranslationKey() + ".desc.blank"));
         }
     }
 }

@@ -11,5 +11,7 @@
             "ore": "ingotMagnet"
         }
     },
-    "result": { "item": "dawncraft:magnet_block" }
+    "result": {
+        "item": "magnetics:magnet_block"
+    }
 }

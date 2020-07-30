@@ -1,5 +1,5 @@
 {
     "variants": {
-        "normal": { "model": "dawncraft:magnet_block" }
+        "normal": { "model": "magnetics:magnet_block" }
     }
 }

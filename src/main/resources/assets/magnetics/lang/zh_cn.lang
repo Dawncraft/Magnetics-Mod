@@ -1,14 +1,14 @@
-itemGroup.Magnetism=磁能
+itemGroup.Magnetics=磁能
 
 item.magnet.name=磁铁
 item.magnetIngot.name=磁石锭
 item.magnetStick.name=磁力棒
 item.magnetBall.name=磁珠
 item.magnetCard.name=磁卡
-item.magnetCard.null=空白的磁卡
-item.magnetCard.id=卡号: %s
-item.magnetCard.desc=额外信息: %s
-item.magnetCard.owner=持卡人: %s
+item.magnetCard.desc.blank=空白的磁卡
+item.magnetCard.desc.id=卡号: %s
+item.magnetCard.desc.name=持卡人: %s
+item.magnetCard.desc.text=备注: %s
 item.magnetDoor.name=磁铁门
 item.magnetDoor.desc=所有者卡号: %s
 
@@ -17,8 +17,10 @@ item.magnetPickaxe.name=磁铁镐
 item.magnetHammer.name=磁铁锤子
 item.magnetSpade.name=磁铁铲
 item.magnetHoe.name=磁铁锄
-item.magnetSword.name=磁能脉冲剑
-item.magnetWand.name=磁能法杖
+item.magnetSword.name=磁铁剑
+item.magnetSword.powered.name=磁能脉冲剑
+item.magnetWand.name=磁铁法杖
+item.magnetWand.powered.name=磁能法杖
 item.magnetHelmet.name=磁铁头盔
 item.magnetChestplate.name=磁铁胸甲
 item.magnetLeggings.name=磁铁护腿
@@ -33,11 +35,14 @@ potion.paralysis=麻痹
 
 container.magnetChest=磁力箱
 
-achievement.dawncraft.magnetism=磁能的应用
-achievement.dawncraft.magnetism.desc=烧炼一块磁铁锭
-achievement.dawncraft.magnetCard=刷卡时代
-achievement.dawncraft.magnetCard.desc=记录你的磁卡信息,然后把它刷爆吧
-chat.potion.paralysis=[§6曙光工艺§r] 您已被麻痹，无法攻击实体!
+container.lock=已给%s上锁！
+container.unlock=%s已解锁！
+container.isLocked=%s被锁住！
+
+achievement.magnetics.magnetism=磁能的应用
+achievement.magnetics.magnetism.desc=烧炼一块磁铁锭
+achievement.magnetics.magnetCard=刷卡时代
+achievement.magnetics.magnetCard.desc=记录你的磁卡信息,然后把它刷爆吧
 
 config.magnetics.useSeparateCreativeTab=使用单独物品栏
 config.magnetics.useSeparateCreativeTab.tooltip=磁学Mod的物品是否使用单独的创造模式物品栏

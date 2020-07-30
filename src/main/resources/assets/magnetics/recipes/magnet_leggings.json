@@ -1,5 +1,5 @@
 {
-    "type": "minecraft:crafting_shaped",
+    "type": "forge:ore_shaped",
     "pattern": [
         "XXX",
         "X X",
@@ -7,10 +7,11 @@
     ],
     "key": {
         "X": {
-            "item": "dawncraft:magnet_ingot"
+            "type": "forge:ore_dict",
+            "ore": "ingotMagnet"
         }
     },
     "result": { 
-        "item": "dawncraft:magnet_leggings"
+        "item": "magnetics:magnet_leggings"
     }
 }

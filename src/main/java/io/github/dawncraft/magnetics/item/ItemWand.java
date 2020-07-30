@@ -20,7 +20,7 @@ import net.minecraftforge.oredict.OreDictionary;
 /**
  * A new weapon that can spell skills.
  * <p>
- * Come form Dawncraft Mod
+ * Come form magnetics Mod
  *
  * @author QingChenW
  */
