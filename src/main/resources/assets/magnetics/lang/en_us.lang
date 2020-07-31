@@ -1,17 +1,43 @@
-itemGroup.Magnetism=Magnetism
+itemGroup.Magnetics=Magnetics
 
-item.magnet.name=magnet
+item.magnet.name=Magnet
 item.magnetIngot.name=Magnet ingot
 item.magnetStick.name=Magnet stick
 item.magnetBall.name=Magnet ball
 item.magnetCard.name=Magnet card
+item.magnetCard.desc.blank=blank card
+item.magnetCard.desc.id=Card ID: %s
+item.magnetCard.desc.name=Owner: %s
+item.magnetCard.desc.text=Comment: %s
+item.magnetDoor.name=Magnet door
+item.magnetDoor.desc=Owner card ID: %s
 
-tile.magnetOre.name=Magnet ore
-tile.magnetBlock.name=Magnet block
-
-item.magnetSword.name=Magnet Sword
-
+item.magnetAxe.name=Magnet axe
+item.magnetPickaxe.name=Magnet pickaxe
+item.magnetHammer.name=Magnet hammer
+item.magnetSpade.name=Magnet shovel
+item.magnetHoe.name=Magnet hoe
+item.magnetSword.name=Magnet sword
+item.magnetSword.powered.name=Powered magnet sword
+item.magnetWand.name=Magnet wand
+item.magnetWand.powered.name=Powered magnet wand
 item.magnetHelmet.name=Magnet Helmet
 item.magnetChestplate.name=Magnet Chestplate
 item.magnetLeggings.name=Magnet Leggings
 item.magnetBoots.name=Magnet Boots
+
+tile.magnetOre.name=Magnet ore
+tile.magnetBlock.name=Magnet block
+tile.magnetRail.name=Magnet rail
+tile.magnetChest.name=Magnet chest
+
+potion.paralysisparalysis
+
+container.magnetChest=Magnet chest
+
+container.lock=Lock %s!
+container.unlock=Unlock %s!
+container.isLocked=%s is locked!
+
+config.magnetics.useSeparateCreativeTab=Use separate creative tab
+config.magnetics.useSeparateCreativeTab.tooltip=Whether use separate creative tab or not

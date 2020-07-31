@@ -15,8 +15,7 @@ import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
  * @author QingChenW
  */
 @Mod.EventBusSubscriber(modid = MagneticsMod.MODID)
-@Config(modid = MagneticsMod.MODID, name = MagneticsMod.NAME, category = "general")
-@Config.LangKey("config." + MagneticsMod.MODID + ".general")
+@Config(modid = MagneticsMod.MODID)
 public class ConfigLoader
 {
     @Config.Ignore

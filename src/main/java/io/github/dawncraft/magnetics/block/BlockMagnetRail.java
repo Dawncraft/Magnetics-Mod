@@ -12,6 +12,11 @@ import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
 
+/**
+ * Magnet rail
+ * 
+ * @author QingChenW
+ */
 public class BlockMagnetRail extends BlockRailBase
 {
     public static final PropertyEnum<EnumRailDirection> SHAPE = PropertyEnum.<EnumRailDirection>create("shape", EnumRailDirection.class, new Predicate<EnumRailDirection>()

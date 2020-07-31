@@ -84,8 +84,8 @@ public final class ModItems
 				MAGNET_SHOVEL = new ItemSpade(MAGNET_TOOL).setCreativeTab(flag ? ModCreativeTabs.MAGNETICS : CreativeTabs.TOOLS).setTranslationKey("magnetSpade").setRegistryName("magnet_shovel"),
 				MAGNET_HOE = new ItemHoe(MAGNET_TOOL).setCreativeTab(flag ? ModCreativeTabs.MAGNETICS : CreativeTabs.TOOLS).setTranslationKey("magnetHoe").setRegistryName("magnet_hoe"),
 				// MAGNET_HAMMER = new ItemHammer(MAGNET_TOOL).setCreativeTab(flag ? ModCreativeTabs.MAGNETICS : CreativeTabs.TOOLS).setTranslationKey("magnetHammer").setRegistryName("magnet_hammer"),
-				MAGNET_SWORD = new ItemSword(MAGNET_TOOL).setCreativeTab(flag ? ModCreativeTabs.MAGNETICS : CreativeTabs.COMBAT).setTranslationKey("magnetSword").setRegistryName("magnet_sword"),
-				MAGNET_WAND = new ItemWand(MAGNET_TOOL).setCreativeTab(flag ? ModCreativeTabs.MAGNETICS : CreativeTabs.COMBAT).setTranslationKey("magnetWand").setRegistryName("magnet_wand"),
+				MAGNET_SWORD = new ItemMagnetSword(MAGNET_TOOL).setCreativeTab(flag ? ModCreativeTabs.MAGNETICS : CreativeTabs.COMBAT).setTranslationKey("magnetSword").setRegistryName("magnet_sword"),
+				MAGNET_WAND = new ItemMagnetWand(MAGNET_TOOL).setCreativeTab(flag ? ModCreativeTabs.MAGNETICS : CreativeTabs.COMBAT).setTranslationKey("magnetWand").setRegistryName("magnet_wand"),
 				MAGNET_HELMET = new ItemArmor(MAGNET_ARMOR, MAGNET_ARMOR.ordinal(), EntityEquipmentSlot.HEAD).setCreativeTab(flag ? ModCreativeTabs.MAGNETICS : CreativeTabs.COMBAT).setTranslationKey("magnetHelmet").setRegistryName("magnet_helmet"),
 				MAGNET_CHESTPLATE = new ItemArmor(MAGNET_ARMOR, MAGNET_ARMOR.ordinal(), EntityEquipmentSlot.CHEST).setCreativeTab(flag ? ModCreativeTabs.MAGNETICS : CreativeTabs.COMBAT).setTranslationKey("magnetChestplate").setRegistryName("magnet_chestplate"),
 				MAGNET_LEGGINGS = new ItemArmor(MAGNET_ARMOR, MAGNET_ARMOR.ordinal(), EntityEquipmentSlot.LEGS).setCreativeTab(flag ? ModCreativeTabs.MAGNETICS : CreativeTabs.COMBAT).setTranslationKey("magnetLeggings").setRegistryName("magnet_leggings"),
@@ -94,10 +94,10 @@ public final class ModItems
     }
     
     /**
-     * 
+     * Create an item for the block
      * 
      * @param block
-     * @return
+     * @return An item for the block
      */
     private static Item createItemForBlock(Block block)
     {

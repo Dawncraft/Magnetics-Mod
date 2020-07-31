@@ -21,9 +21,7 @@ import net.minecraftforge.fml.client.config.IConfigElement;
 public class GuiFactory implements IModGuiFactory
 {
     @Override
-    public void initialize(Minecraft minecraft)
-    {
-    }
+    public void initialize(Minecraft minecraft) {}
 
     @Override
     public boolean hasConfigGui()
@@ -34,8 +32,7 @@ public class GuiFactory implements IModGuiFactory
     @Override
     public GuiScreen createConfigGui(GuiScreen parent)
     {
-        List<IConfigElement> elements = Collections.singletonList(ConfigElement.from(ConfigLoader.class));
-        return new GuiConfig(parent, elements, MagneticsMod.MODID, false, false, MagneticsMod.NAME);
+        return new GuiConfig(parent, ConfigElement.from(ConfigLoader.class).getChildElements(), MagneticsMod.MODID, false, false, MagneticsMod.NAME);
     }
 
     @Override

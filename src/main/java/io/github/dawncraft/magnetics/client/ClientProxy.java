@@ -7,6 +7,11 @@ import net.minecraftforge.fml.common.event.FMLInitializationEvent;
 import net.minecraftforge.fml.common.event.FMLPostInitializationEvent;
 import net.minecraftforge.fml.common.event.FMLPreInitializationEvent;
 
+/**
+ * The client proxy of mod.
+ * 
+ * @author QingChenW
+ */
 public class ClientProxy extends CommonProxy
 {
     @Override

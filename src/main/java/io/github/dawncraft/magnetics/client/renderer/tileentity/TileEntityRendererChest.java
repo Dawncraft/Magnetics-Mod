@@ -13,7 +13,7 @@ import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 
 /**
- *
+ * Magnet chest
  *
  * @author QingChenW
  */
@@ -22,8 +22,6 @@ public class TileEntityRendererChest extends TileEntitySpecialRenderer<TileEntit
 {
     private static final ResourceLocation textureMagnetic = new ResourceLocation(MagneticsMod.MODID, "textures/entity/chest/magnetic.png");
     private static final ResourceLocation textureMagneticDouble = new ResourceLocation(MagneticsMod.MODID, "textures/entity/chest/magnetic_double.png");
-    private static final ResourceLocation textureSuper = new ResourceLocation(MagneticsMod.MODID, "textures/entity/chest/super.png");
-    private static final ResourceLocation textureSuperOn = new ResourceLocation(MagneticsMod.MODID, "textures/entity/chest/super_on.png");
 
     private ModelChest simpleChest = new ModelChest();
     private ModelChest largeChest = new ModelLargeChest();

@@ -1,0 +1,90 @@
+package io.github.dawncraft.magnetics.item;
+
+import io.github.dawncraft.magnetics.potion.ModPotions;
+import net.minecraft.creativetab.CreativeTabs;
+import net.minecraft.entity.Entity;
+import net.minecraft.entity.EntityLivingBase;
+import net.minecraft.entity.effect.EntityLightningBolt;
+import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.item.EnumRarity;
+import net.minecraft.item.ItemStack;
+import net.minecraft.nbt.NBTTagCompound;
+import net.minecraft.potion.PotionEffect;
+import net.minecraft.util.ActionResult;
+import net.minecraft.util.EnumActionResult;
+import net.minecraft.util.EnumFacing;
+import net.minecraft.util.EnumHand;
+import net.minecraft.util.NonNullList;
+import net.minecraft.util.math.BlockPos;
+import net.minecraft.util.math.MathHelper;
+import net.minecraft.util.math.RayTraceResult;
+import net.minecraft.util.math.Vec3d;
+import net.minecraft.util.math.RayTraceResult.Type;
+import net.minecraft.world.World;
+import net.minecraftforge.common.IRarity;
+
+public class ItemMagnetWand extends ItemWand
+{
+    public ItemMagnetWand(ToolMaterial material)
+    {
+        super(material);
+    }
+
+    @Override
+    public String getTranslationKey(ItemStack stack)
+    {
+        return super.getTranslationKey(stack) + (this.isPowered(stack) ? ".powered" : "");
+    }
+
+    @Override
+    public IRarity getForgeRarity(ItemStack stack)
+    {
+        if (this.isPowered(stack)) return EnumRarity.EPIC;
+        return super.getForgeRarity(stack);
+    }
+    
+    @Override
+    public void getSubItems(CreativeTabs tab, NonNullList<ItemStack> items)
+    {
+        if (this.isInCreativeTab(tab))
+        {
+            items.add(new ItemStack(this));
+            ItemStack stack = new ItemStack(this);
+            if (!stack.hasTagCompound()) stack.setTagCompound(new NBTTagCompound());
+            NBTTagCompound nbt = stack.getTagCompound();
+            nbt.setBoolean("isPowered", true);
+            items.add(stack);
+        }
+    }
+    
+    @Override
+    public ActionResult<ItemStack> onItemRightClick(World world, EntityPlayer player, EnumHand hand)
+    {
+        ItemStack itemStack = player.getHeldItem(hand);
+        if (this.isPowered(itemStack))
+        {
+            RayTraceResult result = null; // TODO raytrace未实现
+
+            if (result != null && result.typeOfHit == Type.ENTITY)
+            {
+                Entity target = result.entityHit;
+                if (target instanceof EntityLivingBase) ((EntityLivingBase) target).addPotionEffect(new PotionEffect(ModPotions.PARALYSIS, 60));
+                target.world.addWeatherEffect(new EntityLightningBolt(target.world, target.posX, target.posY, target.posZ, true));
+                itemStack.damageItem(1, player);
+                player.getCooldownTracker().setCooldown(this, 20);
+                return new ActionResult<ItemStack>(EnumActionResult.SUCCESS, itemStack);
+            }
+        }
+        return new ActionResult<ItemStack>(EnumActionResult.PASS, itemStack);
+    }
+    
+    private boolean isPowered(ItemStack stack)
+    {
+        if (stack.hasTagCompound())
+        {
+            NBTTagCompound nbt = stack.getTagCompound();
+            if (nbt.getBoolean("isPowered")) return true;
+        }
+        return false;
+    }
+}

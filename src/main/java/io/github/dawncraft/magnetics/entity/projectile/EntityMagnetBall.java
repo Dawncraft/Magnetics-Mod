@@ -8,6 +8,11 @@ import net.minecraft.world.World;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 
+/**
+ * Magnet ball
+ * 
+ * @author QingChenW
+ */
 public class EntityMagnetBall extends EntityThrowable
 {
     public EntityMagnetBall(World world)

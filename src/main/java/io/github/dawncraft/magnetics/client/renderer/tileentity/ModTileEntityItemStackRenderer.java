@@ -2,15 +2,16 @@ package io.github.dawncraft.magnetics.client.renderer.tileentity;
 
 import io.github.dawncraft.magnetics.block.ModBlocks;
 import io.github.dawncraft.magnetics.tileentity.TileEntityMagnetChest;
-import net.minecraft.block.BlockChest;
-import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.client.renderer.tileentity.TileEntityItemStackRenderer;
 import net.minecraft.client.renderer.tileentity.TileEntityRendererDispatcher;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
-import net.minecraft.tileentity.TileEntityChest;
-import net.minecraft.util.EnumFacing;
 
+/**
+ * The mod's TileEntityItemStackRenderer
+ *
+ * @author QingChenW
+ */
 public class ModTileEntityItemStackRenderer extends TileEntityItemStackRenderer
 {
     public static final ModTileEntityItemStackRenderer instance;

@@ -9,6 +9,11 @@ import net.minecraftforge.fml.common.event.FMLPostInitializationEvent;
 import net.minecraftforge.fml.common.event.FMLPreInitializationEvent;
 import net.minecraftforge.fml.common.event.FMLServerStartingEvent;
 
+/**
+ * The common proxy of mod.
+ * 
+ * @author QingChenW
+ */
 public class CommonProxy
 {
     public void preInit(FMLPreInitializationEvent event)
