@@ -3,10 +3,13 @@ package io.github.dawncraft.magnetics.tileentity;
 import java.util.List;
 
 import io.github.dawncraft.magnetics.MagneticsMod;
+import net.minecraft.block.state.IBlockState;
 import net.minecraft.entity.item.EntityItem;
 import net.minecraft.item.ItemStack;
 import net.minecraft.tileentity.TileEntityChest;
+import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.MathHelper;
+import net.minecraft.world.World;
 
 /**
  * Magnet chest's tileentity
@@ -86,6 +89,12 @@ public class TileEntityMagnetChest extends TileEntityChest
         }
         return itemStack;
     }
+    
+    @Override
+    public boolean shouldRefresh(World world, BlockPos blockPos, IBlockState oldState, IBlockState newState)
+    {
+        return oldState.getBlock() != newState.getBlock();
+    }
 
     @Override
     public void update()
@@ -134,7 +143,7 @@ public class TileEntityMagnetChest extends TileEntityChest
     @Override
     public String getName()
     {
-        return this.hasCustomName() ? this.getName() : "container.magnetChest";
+        return this.hasCustomName() ? super.getName() : "container.magnetChest";
     }
 
     @Override

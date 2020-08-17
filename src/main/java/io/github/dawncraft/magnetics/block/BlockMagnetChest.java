@@ -2,6 +2,7 @@ package io.github.dawncraft.magnetics.block;
 
 import io.github.dawncraft.magnetics.tileentity.TileEntityMagnetChest;
 import net.minecraft.block.BlockChest;
+import net.minecraft.block.SoundType;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.item.EntityItem;
@@ -19,6 +20,9 @@ public class BlockMagnetChest extends BlockChest
     public BlockMagnetChest()
     {
         super(Type.BASIC);
+        this.setHardness(2.5F);
+        this.setSoundType(SoundType.WOOD);
+        this.setHarvestLevel("axe", 0);
     }
 
     @Override

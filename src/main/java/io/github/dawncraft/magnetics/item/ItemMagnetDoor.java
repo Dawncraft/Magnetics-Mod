@@ -45,31 +45,26 @@ public class ItemMagnetDoor extends ItemDoor
     @Override
     public EnumActionResult onItemUse(EntityPlayer player, World world, BlockPos pos, EnumHand hand, EnumFacing facing, float hitX, float hitY, float hitZ)
     {
+        ItemStack stack = player.getHeldItem(hand);
+        NBTTagCompound nbt = stack.hasTagCompound() ? stack.getTagCompound() : null;
+        
         if (super.onItemUse(player, world, pos, hand, facing, hitX, hitY, hitZ) == EnumActionResult.SUCCESS)
         {
-            if (!world.isRemote)
+            IBlockState blockState = world.getBlockState(pos);
+            Block block = blockState.getBlock();
+            if (block != ModBlocks.MAGNET_DOOR) pos = pos.offset(facing);
+            
+            TileEntity tileentity = world.getTileEntity(pos);
+            if (tileentity instanceof TileEntityMagnetDoor)
             {
-                IBlockState blockState = world.getBlockState(pos);
-                Block block = blockState.getBlock();
-                if (block != ModBlocks.MAGNET_DOOR) pos = pos.offset(facing);
-                
-                TileEntity tileentity = world.getTileEntity(pos);
-                if (tileentity instanceof TileEntityMagnetDoor)
+                TileEntityMagnetDoor tileentityMagnetDoor = (TileEntityMagnetDoor) tileentity;
+                if (nbt.hasKey("UUID", Constants.NBT.TAG_STRING))
                 {
-                    TileEntityMagnetDoor tileentityMagnetDoor = (TileEntityMagnetDoor) tileentity;
-                    ItemStack stack = player.getHeldItem(hand);
-                    if (stack.hasTagCompound())
-                    {
-                        NBTTagCompound nbt = stack.getTagCompound();
-                        if (nbt.hasKey("UUID", Constants.NBT.TAG_STRING))
-                        {
-                            tileentityMagnetDoor.setUUID(nbt.getString("UUID"));
-                        }
-                        else if (nbt.hasKey("BlockEntityTag", Constants.NBT.TAG_COMPOUND))
-                        {
-                            ItemBlock.setTileEntityNBT(world, player, pos, stack);
-                        }
-                    }
+                    tileentityMagnetDoor.setUUID(nbt.getString("UUID"));
+                }
+                else if (nbt.hasKey("BlockEntityTag", Constants.NBT.TAG_COMPOUND))
+                {
+                    ItemBlock.setTileEntityNBT(world, player, pos, stack);
                 }
             }
             return EnumActionResult.SUCCESS;

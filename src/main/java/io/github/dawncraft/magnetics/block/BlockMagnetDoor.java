@@ -10,6 +10,8 @@ import net.minecraft.block.ITileEntityProvider;
 import net.minecraft.block.material.MapColor;
 import net.minecraft.block.material.Material;
 import net.minecraft.block.state.IBlockState;
+import net.minecraft.client.Minecraft;
+import net.minecraft.client.gui.GuiScreen;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Items;
 import net.minecraft.item.Item;
@@ -21,6 +23,7 @@ import net.minecraft.util.EnumHand;
 import net.minecraft.util.NonNullList;
 import net.minecraft.util.StringUtils;
 import net.minecraft.util.math.BlockPos;
+import net.minecraft.util.math.RayTraceResult;
 import net.minecraft.util.text.TextComponentTranslation;
 import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
@@ -90,24 +93,19 @@ public class BlockMagnetDoor extends BlockDoor implements ITileEntityProvider
 
             if (state2.getBlock() != this)
             {
+            	if (!world.isRemote) this.dropBlockAsItem(world, pos, state, 0);
+            	// 这里setBlockState之后tileentity就没了,所以没有采用和mojang一样的写法
                 world.setBlockToAir(pos);
-                removed = true;
             }
 
             if (!world.getBlockState(pos.down()).isSideSolid(world, pos.down(), EnumFacing.UP))
             {
+                if (!world.isRemote) this.dropBlockAsItem(world, pos, state, 0);
                 world.setBlockToAir(pos);
-                removed = true;
-
                 if (state2.getBlock() == this)
                 {
                     world.setBlockToAir(pos2);
                 }
-            }
-
-            if (!world.isRemote && removed)
-            {
-                this.dropBlockAsItem(world, pos, state, 0);
             }
         }
     }
@@ -200,12 +198,35 @@ public class BlockMagnetDoor extends BlockDoor implements ITileEntityProvider
             if (tileentity instanceof TileEntityMagnetDoor)
             {
                 TileEntityMagnetDoor tileentityMagnetDoor = (TileEntityMagnetDoor) tileentity;
-                NBTTagCompound nbt = new NBTTagCompound();
-                nbt.setString("UUID", tileentityMagnetDoor.getUUID());
-                itemStack.setTagCompound(nbt);
+                if (tileentityMagnetDoor.isLocked())
+                {
+                    NBTTagCompound nbt = new NBTTagCompound();
+                    nbt.setString("UUID", tileentityMagnetDoor.getUUID());
+                    itemStack.setTagCompound(nbt);
+                }
             }
             drops.add(itemStack);
         }
+    }
+    
+    // forge打的中键选取补丁只支持获取在当前指针指着的方块的te,门的上半部分需要自己实现
+    @Override
+    public ItemStack getPickBlock(IBlockState state, RayTraceResult target, World world, BlockPos pos, EntityPlayer player)
+    {
+    	ItemStack stack = getItem(world, pos, state);
+    	if (state.getValue(HALF) == BlockDoor.EnumDoorHalf.UPPER)
+    	{
+    		boolean isCreative = player.capabilities.isCreativeMode;
+        	if (isCreative && GuiScreen.isCtrlKeyDown())
+        	{
+                TileEntity tileentity = world.getTileEntity(pos.down());
+                if (tileentity != null)
+                {
+                	Minecraft.getMinecraft().storeTEInStack(stack, tileentity);
+                }
+        	}
+    	}
+    	return stack;
     }
 
     @Override

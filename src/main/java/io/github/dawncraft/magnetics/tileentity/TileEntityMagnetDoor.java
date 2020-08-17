@@ -18,6 +18,12 @@ public class TileEntityMagnetDoor extends TileEntity
     private String UUID;
 
     @Override
+    public boolean shouldRefresh(World world, BlockPos blockPos, IBlockState oldState, IBlockState newState)
+    {
+        return oldState.getBlock() != newState.getBlock();
+    }
+
+    @Override
     public NBTTagCompound writeToNBT(NBTTagCompound compound)
     {
         super.writeToNBT(compound);
@@ -32,12 +38,6 @@ public class TileEntityMagnetDoor extends TileEntity
         super.readFromNBT(compound);
         if (compound.hasKey("UUID", Constants.NBT.TAG_STRING))
             this.UUID = compound.getString("UUID");
-    }
-
-    @Override
-    public boolean shouldRefresh(World world, BlockPos blockPos, IBlockState oldState, IBlockState newState)
-    {
-        return oldState.getBlock() != newState.getBlock();
     }
 
     public boolean isLocked()
