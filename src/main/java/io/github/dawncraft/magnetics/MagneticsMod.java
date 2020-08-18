@@ -24,7 +24,7 @@ public class MagneticsMod
 {
     public static final String MODID = "magnetics";
     public static final String NAME = "Magnetics Mod";
-    public static final String VERSION = "${version}";
+    public static final String VERSION = "@version@";
     public static final String GUI_FACTORY = "io.github.dawncraft.magnetics.client.GuiFactory";
 
     @Instance(MagneticsMod.MODID)
@@ -68,7 +68,7 @@ public class MagneticsMod
     @EventHandler
     public void fingerprintViolation(FMLFingerprintViolationEvent event)
     {
-        // TODO 签名校验未实现
+        System.out.println("磁学Mod签名校验尚未实现!");
     }
 
     public static Logger logger()

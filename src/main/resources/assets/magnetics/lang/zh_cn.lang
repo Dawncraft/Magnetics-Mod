@@ -1,4 +1,4 @@
-itemGroup.Magnetics=磁能
+itemGroup.Magnetics=磁学
 
 item.magnet.name=磁铁
 item.magnetIngot.name=磁石锭
@@ -30,6 +30,7 @@ tile.magnetOre.name=磁石矿
 tile.magnetBlock.name=磁石块
 tile.magnetRail.name=磁力铁轨
 tile.magnetChest.name=磁力箱
+tile.lightningArrester.name=避雷针
 
 potion.paralysis=麻痹
 

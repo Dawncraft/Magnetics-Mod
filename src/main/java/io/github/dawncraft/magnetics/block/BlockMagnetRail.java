@@ -3,6 +3,7 @@ package io.github.dawncraft.magnetics.block;
 import com.google.common.base.Predicate;
 
 import net.minecraft.block.BlockRailBase;
+import net.minecraft.block.SoundType;
 import net.minecraft.block.properties.IProperty;
 import net.minecraft.block.properties.PropertyEnum;
 import net.minecraft.block.state.BlockStateContainer;
@@ -14,7 +15,7 @@ import net.minecraft.world.World;
 
 /**
  * Magnet rail
- * 
+ *
  * @author QingChenW
  */
 public class BlockMagnetRail extends BlockRailBase
@@ -31,6 +32,9 @@ public class BlockMagnetRail extends BlockRailBase
     public BlockMagnetRail()
     {
         super(false);
+        this.setHardness(0.7F);
+        this.setSoundType(SoundType.METAL);
+        this.setHarvestLevel("pickaxe", 0);
         this.setDefaultState(this.blockState.getBaseState().withProperty(SHAPE, EnumRailDirection.NORTH_SOUTH));
     }
 

@@ -36,14 +36,11 @@ public class ItemMagnetBall extends Item
         }
         if (!world.isRemote)
         {
-            BlockPos blockPos = ((WorldServer) world).getChunkProvider().getNearestStructurePos(world, "", new BlockPos(player), false);
-
-            if (blockPos != null)
-            {
-                EntityMagnetBall entityMagnetBall = new EntityMagnetBall(world, player);
-                entityMagnetBall.shoot(blockPos.getX(), blockPos.getY(), blockPos.getZ(), 1.0F, 0.5F);
-                world.spawnEntity(entityMagnetBall);
-            }
+            EntityMagnetBall entityMagnetBall = new EntityMagnetBall(world, player);
+            BlockPos blockPos = ((WorldServer) world).getChunkProvider().getNearestStructurePos(world, "", new BlockPos(player), false); // TODO 磁力球寻找目标
+            if (blockPos != null) entityMagnetBall.shoot(blockPos.getX(), blockPos.getY(), blockPos.getZ(), 1.0F, 0.5F);
+            else entityMagnetBall.shoot(player, player.rotationPitch, player.rotationYaw, 0.0F, 1.0F, 0.5F);
+            world.spawnEntity(entityMagnetBall);
         }
         world.playSound(null, player.posX, player.posY, player.posZ, SoundEvents.ENTITY_SNOWBALL_THROW, SoundCategory.NEUTRAL, 0.5F, 0.4F / (itemRand.nextFloat() * 0.4F + 0.8F));
         player.addStat(StatList.getObjectUseStats(this));

@@ -29,16 +29,14 @@ public class ModItemModels
     {
         registerBlock(ModBlocks.MAGNET_ORE);
         registerBlock(ModBlocks.MAGNET_BLOCK);
-
         registerBlock(ModBlocks.MAGNET_CHEST);
+        registerBlock(ModBlocks.MAGNET_RAIL);
+        registerBlock(ModBlocks.LIGHTNING_ARRESTER);
 
         registerItem(ModItems.MAGNET_DOOR);
-        registerBlock(ModBlocks.MAGNET_RAIL);
         registerItem(ModItems.MAGNET_CARD);
-
         registerItem(ModItems.MAGNET);
         registerItem(ModItems.MAGNET_INGOT);
-        registerItem(ModItems.MAGNET_STICK);
         registerItem(ModItems.MAGNET_BALL);
 
         registerItem(ModItems.MAGNET_AXE);
@@ -46,7 +44,6 @@ public class ModItemModels
         registerItem(ModItems.MAGNET_SHOVEL);
         registerItem(ModItems.MAGNET_HOE);
         // registerItem(ModItems.MAGNET_HAMMER);
-
         registerItem(ModItems.MAGNET_SWORD);
         registerItem(ModItems.MAGNET_WAND);
         registerItem(ModItems.MAGNET_HELMET);

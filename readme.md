@@ -7,3 +7,7 @@
 - 门的方块掉落不在harvestBlock中,是在neighborChanged中处理的
 
 - 写te的时候别忘了覆盖shouldRefresh!不覆写会导致更新方块状态同时更新te,然后te里存的数据就没啦
+
+- 注册药水时调用registerPotionAttributeModifier要在setPotionName之后
+
+- 如果想让方块徒手掉落物品,但用工具挖掘时更快的话调用Block类的setHarvestLevel("工具种类", 0)

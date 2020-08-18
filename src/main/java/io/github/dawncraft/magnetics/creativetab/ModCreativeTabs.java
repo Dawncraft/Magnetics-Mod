@@ -1,5 +1,6 @@
 package io.github.dawncraft.magnetics.creativetab;
 
+import io.github.dawncraft.magnetics.ConfigLoader;
 import io.github.dawncraft.magnetics.item.ModItems;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.item.ItemStack;
@@ -15,13 +16,13 @@ public class ModCreativeTabs
 
     static
     {
-        MAGNETICS = new CreativeTabs("Magnetics")
+        MAGNETICS = ConfigLoader.useSeparateCreativeTab ? new CreativeTabs("Magnetics")
         {
             @Override
             public ItemStack createIcon()
             {
                 return new ItemStack(ModItems.MAGNET);
             }
-        };
+        } : null;
     }
 }

@@ -21,7 +21,7 @@ public class ConfigLoader
     @Config.Ignore
     private static Configuration config;
 
-    @Config.Comment("")
+    @Config.Comment("Whether use separate creative tab for mod items or not.")
     @Config.LangKey("config." + MagneticsMod.MODID + ".useSeparateCreativeTab")
     public static boolean useSeparateCreativeTab = true;
 

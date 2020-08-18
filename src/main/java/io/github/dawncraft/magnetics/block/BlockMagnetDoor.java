@@ -49,7 +49,7 @@ public class BlockMagnetDoor extends BlockDoor implements ITileEntityProvider
     {
         return MapColor.IRON;
     }
-    
+
     @Override
     public boolean hasTileEntity(IBlockState state)
     {
@@ -120,7 +120,8 @@ public class BlockMagnetDoor extends BlockDoor implements ITileEntityProvider
             if (newState.getBlock() == this)
             {
                 boolean canUnlock = true;
-                if (true) // TODO 被红石激活
+                boolean isPowered = world.isBlockPowered(newPos) || world.isBlockPowered(newPos.up()) || true; // 尚未实现
+                if (isPowered)
                 {
                     canUnlock = false;
                     TileEntity tileentity = world.getTileEntity(newPos);
@@ -188,7 +189,7 @@ public class BlockMagnetDoor extends BlockDoor implements ITileEntityProvider
     public void getDrops(NonNullList<ItemStack> drops, IBlockAccess world, BlockPos pos, IBlockState blockState, int fortune)
     {
         Random rand = world instanceof World ? ((World) world).rand : RANDOM;
-        
+
         Item item = this.getItemDropped(blockState, rand, fortune);
         if (item != Items.AIR)
         {
@@ -208,12 +209,12 @@ public class BlockMagnetDoor extends BlockDoor implements ITileEntityProvider
             drops.add(itemStack);
         }
     }
-    
+
     // forge打的中键选取补丁只支持获取在当前指针指着的方块的te,门的上半部分需要自己实现
     @Override
     public ItemStack getPickBlock(IBlockState state, RayTraceResult target, World world, BlockPos pos, EntityPlayer player)
     {
-    	ItemStack stack = getItem(world, pos, state);
+    	ItemStack stack = this.getItem(world, pos, state);
     	if (state.getValue(HALF) == BlockDoor.EnumDoorHalf.UPPER)
     	{
     		boolean isCreative = player.capabilities.isCreativeMode;

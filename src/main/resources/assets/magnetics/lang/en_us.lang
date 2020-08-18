@@ -30,6 +30,7 @@ tile.magnetOre.name=Magnet ore
 tile.magnetBlock.name=Magnet block
 tile.magnetRail.name=Magnet rail
 tile.magnetChest.name=Magnet chest
+tile.lightningArrester.name=Lightning arrester
 
 potion.paralysisparalysis
 

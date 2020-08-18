@@ -8,7 +8,7 @@ import net.minecraft.client.renderer.entity.RenderSnowball;
 
 /**
  * Magnet ball
- * 
+ *
  * @author QingChenW
  */
 public class RenderMagnetBall extends RenderSnowball<EntityMagnetBall>
@@ -17,5 +17,4 @@ public class RenderMagnetBall extends RenderSnowball<EntityMagnetBall>
     {
         super(renderManager, ModItems.MAGNET_BALL, Minecraft.getMinecraft().getRenderItem());
     }
-
 }

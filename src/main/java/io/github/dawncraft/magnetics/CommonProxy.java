@@ -1,7 +1,6 @@
 package io.github.dawncraft.magnetics;
 
 import io.github.dawncraft.magnetics.item.ModOreDictionary;
-import io.github.dawncraft.magnetics.tileentity.ModTileEntities;
 import io.github.dawncraft.magnetics.world.gen.feature.ModWorldGenerators;
 import net.minecraftforge.fml.common.event.FMLInitializationEvent;
 import net.minecraftforge.fml.common.event.FMLInterModComms.IMCEvent;
@@ -11,7 +10,7 @@ import net.minecraftforge.fml.common.event.FMLServerStartingEvent;
 
 /**
  * The common proxy of mod.
- * 
+ *
  * @author QingChenW
  */
 public class CommonProxy
@@ -19,7 +18,6 @@ public class CommonProxy
     public void preInit(FMLPreInitializationEvent event)
     {
         ConfigLoader.init(event.getSuggestedConfigurationFile());
-        ModTileEntities.init();
     }
 
     public void init(FMLInitializationEvent event)

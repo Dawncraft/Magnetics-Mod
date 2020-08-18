@@ -1,24 +1,28 @@
 package io.github.dawncraft.magnetics.item;
 
-import io.github.dawncraft.magnetics.potion.ModPotions;
+import io.github.dawncraft.magnetics.util.Utils;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.entity.EntityLivingBase;
-import net.minecraft.entity.effect.EntityLightningBolt;
 import net.minecraft.item.EnumRarity;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.ItemSword;
 import net.minecraft.nbt.NBTTagCompound;
-import net.minecraft.potion.PotionEffect;
 import net.minecraft.util.NonNullList;
 import net.minecraftforge.common.IRarity;
 
+/**
+ * Magnet sword
+ * TODO 磁能脉冲剑的类似于附魔的特效
+ *
+ * @author QingChenW
+ */
 public class ItemMagnetSword extends ItemSword
 {
     public ItemMagnetSword(ToolMaterial material)
     {
         super(material);
     }
-    
+
     @Override
     public String getTranslationKey(ItemStack stack)
     {
@@ -31,7 +35,7 @@ public class ItemMagnetSword extends ItemSword
         if (this.isPowered(stack)) return EnumRarity.EPIC;
         return super.getForgeRarity(stack);
     }
-    
+
     @Override
     public void getSubItems(CreativeTabs tab, NonNullList<ItemStack> items)
     {
@@ -45,19 +49,18 @@ public class ItemMagnetSword extends ItemSword
             items.add(stack);
         }
     }
-    
+
     @Override
     public boolean hitEntity(ItemStack stack, EntityLivingBase target, EntityLivingBase attacker)
     {
         super.hitEntity(stack, target, attacker);
         if (this.isPowered(stack))
         {
-            target.addPotionEffect(new PotionEffect(ModPotions.PARALYSIS, 60));
-            target.world.addWeatherEffect(new EntityLightningBolt(target.world, target.posX, target.posY, target.posZ, true));
+            Utils.summonLightningBoltAt(attacker, target.world, target.posX, target.posY, target.posZ);
         }
         return true;
     }
-    
+
     private boolean isPowered(ItemStack stack)
     {
         if (stack.hasTagCompound())

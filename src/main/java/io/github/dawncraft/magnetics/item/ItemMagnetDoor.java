@@ -6,14 +6,11 @@ import javax.annotation.Nullable;
 
 import io.github.dawncraft.magnetics.block.ModBlocks;
 import io.github.dawncraft.magnetics.tileentity.TileEntityMagnetDoor;
-import net.minecraft.advancements.CriteriaTriggers;
 import net.minecraft.block.Block;
-import net.minecraft.block.BlockDoor;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.client.resources.I18n;
 import net.minecraft.client.util.ITooltipFlag;
 import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.item.ItemBlock;
 import net.minecraft.item.ItemDoor;
 import net.minecraft.item.ItemStack;
@@ -41,19 +38,19 @@ public class ItemMagnetDoor extends ItemDoor
     {
         super(ModBlocks.MAGNET_DOOR);
     }
-    
+
     @Override
     public EnumActionResult onItemUse(EntityPlayer player, World world, BlockPos pos, EnumHand hand, EnumFacing facing, float hitX, float hitY, float hitZ)
     {
         ItemStack stack = player.getHeldItem(hand);
         NBTTagCompound nbt = stack.hasTagCompound() ? stack.getTagCompound() : null;
-        
-        if (super.onItemUse(player, world, pos, hand, facing, hitX, hitY, hitZ) == EnumActionResult.SUCCESS)
+
+        if (super.onItemUse(player, world, pos, hand, facing, hitX, hitY, hitZ) == EnumActionResult.SUCCESS && nbt != null)
         {
             IBlockState blockState = world.getBlockState(pos);
             Block block = blockState.getBlock();
             if (block != ModBlocks.MAGNET_DOOR) pos = pos.offset(facing);
-            
+
             TileEntity tileentity = world.getTileEntity(pos);
             if (tileentity instanceof TileEntityMagnetDoor)
             {
