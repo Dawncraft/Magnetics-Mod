@@ -3,7 +3,6 @@ package io.github.dawncraft.magnetics.item;
 import io.github.dawncraft.magnetics.ConfigLoader;
 import io.github.dawncraft.magnetics.MagneticsMod;
 import io.github.dawncraft.magnetics.block.ModBlocks;
-import io.github.dawncraft.magnetics.creativetab.ModCreativeTabs;
 import net.minecraft.block.Block;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.init.SoundEvents;

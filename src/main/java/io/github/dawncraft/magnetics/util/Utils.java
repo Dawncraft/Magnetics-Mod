@@ -11,6 +11,7 @@ import net.minecraft.util.math.AxisAlignedBB;
 import net.minecraft.util.math.RayTraceResult;
 import net.minecraft.util.math.Vec3d;
 import net.minecraft.world.World;
+import net.minecraftforge.event.ForgeEventFactory;
 
 public class Utils
 {
@@ -31,7 +32,7 @@ public class Utils
         RayTraceResult raytraceResult = entity.world.rayTraceBlocks(start, end);
 
         Entity target = null;
-        double target_pos = 0.0D;
+        double distance = 0.0D;
         List<Entity> list = entity.world.getEntitiesWithinAABBExcludingEntity(entity, entity.getEntityBoundingBox().expand(vec.x, vec.y, vec.z));
         for (Entity query : list)
         {
@@ -41,11 +42,11 @@ public class Utils
                 RayTraceResult raytraceResult2 = axisalignedbb.calculateIntercept(start, end);
                 if (raytraceResult2 != null)
                 {
-                    double query_pos = start.squareDistanceTo(raytraceResult2.hitVec);
-                    if (query_pos < target_pos || target_pos == 0.0D)
+                    double query_distance = start.squareDistanceTo(raytraceResult2.hitVec);
+                    if (query_distance < distance || distance == 0.0D)
                     {
                         target = query;
-                        target_pos = query_pos;
+                        distance = query_distance;
                     }
                 }
             }
@@ -74,7 +75,7 @@ public class Utils
         world.addWeatherEffect(entityLightningBolt);
         for (Entity entity : world.getEntitiesWithinAABBExcludingEntity(entityLightningBolt, new AxisAlignedBB(x, y, z, x, y + 6.0D, z).grow(3.0D)))
         {
-            if (entity != owner && !net.minecraftforge.event.ForgeEventFactory.onEntityStruckByLightning(entity, entityLightningBolt))
+            if (entity != owner && !ForgeEventFactory.onEntityStruckByLightning(entity, entityLightningBolt))
             {
                 entity.onStruckByLightning(entityLightningBolt);
                 if (entity instanceof EntityLivingBase) ((EntityLivingBase) entity).addPotionEffect(new PotionEffect(ModPotions.PARALYSIS, 60));

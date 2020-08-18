@@ -1,5 +1,6 @@
 package io.github.dawncraft.magnetics;
 
+import io.github.dawncraft.magnetics.container.ModGuiHandler;
 import io.github.dawncraft.magnetics.item.ModOreDictionary;
 import io.github.dawncraft.magnetics.world.gen.feature.ModWorldGenerators;
 import net.minecraftforge.fml.common.event.FMLInitializationEvent;
@@ -24,6 +25,7 @@ public class CommonProxy
     {
         ModOreDictionary.init();
         ModWorldGenerators.init();
+        ModGuiHandler.init();
     }
 
     public void postInit(FMLPostInitializationEvent event)

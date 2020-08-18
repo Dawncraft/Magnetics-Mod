@@ -1,7 +1,6 @@
-package io.github.dawncraft.magnetics.creativetab;
+package io.github.dawncraft.magnetics.item;
 
 import io.github.dawncraft.magnetics.ConfigLoader;
-import io.github.dawncraft.magnetics.item.ModItems;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.item.ItemStack;
 

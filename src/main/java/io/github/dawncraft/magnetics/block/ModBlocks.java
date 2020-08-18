@@ -2,7 +2,7 @@ package io.github.dawncraft.magnetics.block;
 
 import io.github.dawncraft.magnetics.ConfigLoader;
 import io.github.dawncraft.magnetics.MagneticsMod;
-import io.github.dawncraft.magnetics.creativetab.ModCreativeTabs;
+import io.github.dawncraft.magnetics.item.ModCreativeTabs;
 import io.github.dawncraft.magnetics.tileentity.ModTileEntities;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockOre;
