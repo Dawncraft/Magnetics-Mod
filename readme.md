@@ -10,4 +10,4 @@
 
 - 注册药水时调用registerPotionAttributeModifier要在setPotionName之后
 
-- 如果想让方块徒手掉落物品,但用工具挖掘时更快的话调用Block类的setHarvestLevel("工具种类", 0)
+- 如果想让方块用工具挖掘的话调用Block类的setHarvestLevel(工具种类, 等级)

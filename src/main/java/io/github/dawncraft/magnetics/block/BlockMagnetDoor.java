@@ -110,6 +110,7 @@ public class BlockMagnetDoor extends BlockDoor implements ITileEntityProvider
         }
     }
 
+    // TODO 消息中的磁铁门名称未本地化
     @Override
     public boolean onBlockActivated(World world, BlockPos pos, IBlockState state, EntityPlayer player, EnumHand hand, EnumFacing facing, float hitX, float hitY, float hitZ)
     {
