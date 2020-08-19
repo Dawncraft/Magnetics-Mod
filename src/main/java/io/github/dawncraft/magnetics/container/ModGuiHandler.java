@@ -10,6 +10,11 @@ import net.minecraftforge.fml.common.network.NetworkRegistry;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 
+/**
+ * Mod's GUI Handler
+ *
+ * @author QingChenW
+ */
 public class ModGuiHandler implements IGuiHandler
 {
     public static final int GUI_LIGHTNING_ARRESTER = 1;
@@ -24,7 +29,7 @@ public class ModGuiHandler implements IGuiHandler
     {
         switch (ID)
         {
-        case GUI_LIGHTNING_ARRESTER: return new ContainerLightningArrester(player, player.world.getTileEntity(new BlockPos(x, y, z)));
+        case GUI_LIGHTNING_ARRESTER: return new ContainerLightningArrester(player.inventory, player.world.getTileEntity(new BlockPos(x, y, z)));
         }
         return null;
     }
@@ -35,7 +40,7 @@ public class ModGuiHandler implements IGuiHandler
     {
         switch (ID)
         {
-        case GUI_LIGHTNING_ARRESTER: return new GuiLightningArrester(player, player.world.getTileEntity(new BlockPos(x, y, z)));
+        case GUI_LIGHTNING_ARRESTER: return new GuiLightningArrester(player.inventory, player.world.getTileEntity(new BlockPos(x, y, z)));
         }
         return null;
     }

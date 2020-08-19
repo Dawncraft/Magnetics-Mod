@@ -35,6 +35,7 @@ tile.lightningArrester.name=避雷针
 potion.paralysis=麻痹
 
 container.magnetChest=磁力箱
+container.lightningArrester=避雷针
 
 container.lock=已给%s上锁！
 container.unlock=%s已解锁！

@@ -2,6 +2,7 @@ package io.github.dawncraft.magnetics.container;
 
 import io.github.dawncraft.magnetics.tileentity.TileEntityLightningArrester;
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.entity.player.InventoryPlayer;
 import net.minecraft.inventory.Container;
 import net.minecraft.inventory.Slot;
 import net.minecraft.item.ItemStack;
@@ -11,25 +12,30 @@ import net.minecraftforge.items.CapabilityItemHandler;
 import net.minecraftforge.items.IItemHandler;
 import net.minecraftforge.items.SlotItemHandler;
 
+/**
+ * Lightning arrester container
+ *
+ * @author QingChenW
+ */
 public class ContainerLightningArrester extends Container
 {
     private final TileEntityLightningArrester tileentityLightningArrester;
 
-    public ContainerLightningArrester(EntityPlayer player, TileEntity tileEntity)
+    public ContainerLightningArrester(InventoryPlayer playerInv, TileEntity tileEntity)
     {
         this.tileentityLightningArrester = (TileEntityLightningArrester) tileEntity;
         IItemHandler itemHander = tileEntity.getCapability(CapabilityItemHandler.ITEM_HANDLER_CAPABILITY, EnumFacing.UP);
-        this.addSlotToContainer(new SlotItemHandler(itemHander, 0, 56, 26));
+        this.addSlotToContainer(new SlotItemHandler(itemHander, 0, 80, 49));
         for (int i = 0; i < 3; ++i)
         {
             for (int j = 0; j < 9; ++j)
             {
-                this.addSlotToContainer(new Slot(player.inventory, j + i * 9 + 9, 8 + j * 18, 84 + i * 18));
+                this.addSlotToContainer(new Slot(playerInv, j + i * 9 + 9, 8 + j * 18, 84 + i * 18));
             }
         }
         for (int i = 0; i < 9; ++i)
         {
-            this.addSlotToContainer(new Slot(player.inventory, i, 8 + i * 18, 142));
+            this.addSlotToContainer(new Slot(playerInv, i, 8 + i * 18, 142));
         }
     }
 

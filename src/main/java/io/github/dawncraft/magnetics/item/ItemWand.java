@@ -1,11 +1,8 @@
 package io.github.dawncraft.magnetics.item;
 
-import java.util.UUID;
-
 import com.google.common.collect.Multimap;
 
 import net.minecraft.block.state.IBlockState;
-import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.SharedMonsterAttributes;
 import net.minecraft.entity.ai.attributes.AttributeModifier;
@@ -20,10 +17,11 @@ import net.minecraftforge.oredict.OreDictionary;
 /**
  * A new weapon that can spell skills.
  * <p>
- * Come form magnetics Mod
+ * Come form Dawncraft Mod. When Dawncraft Mod updates its API, I will quote this class from API.
  *
  * @author QingChenW
  */
+@Deprecated
 public class ItemWand extends Item
 {
     private final Item.ToolMaterial material;

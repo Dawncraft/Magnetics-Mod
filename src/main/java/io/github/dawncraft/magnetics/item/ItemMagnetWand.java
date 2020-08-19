@@ -15,6 +15,8 @@ import net.minecraft.util.math.RayTraceResult;
 import net.minecraft.util.math.RayTraceResult.Type;
 import net.minecraft.world.World;
 import net.minecraftforge.common.IRarity;
+import net.minecraftforge.fml.relauncher.Side;
+import net.minecraftforge.fml.relauncher.SideOnly;
 
 /**
  * Magnet wand
@@ -39,6 +41,13 @@ public class ItemMagnetWand extends ItemWand
     {
         if (this.isPowered(stack)) return EnumRarity.EPIC;
         return super.getForgeRarity(stack);
+    }
+
+    @Override
+    @SideOnly(Side.CLIENT)
+    public boolean hasEffect(ItemStack stack)
+    {
+        return this.isPowered(stack) || super.hasEffect(stack);
     }
 
     @Override

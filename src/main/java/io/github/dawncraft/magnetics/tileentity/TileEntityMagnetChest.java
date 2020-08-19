@@ -12,7 +12,7 @@ import net.minecraft.util.math.MathHelper;
 import net.minecraft.world.World;
 
 /**
- * Magnet chest's tileentity
+ * Magnet chest's tile entity
  *
  * @author QingChenW
  **/
@@ -33,7 +33,7 @@ public class TileEntityMagnetChest extends TileEntityChest
                 entityItem.setDead();
                 return true;
             }
-            
+
             entityItem.setItem(newItemStack);
             return false;
         }
@@ -89,7 +89,7 @@ public class TileEntityMagnetChest extends TileEntityChest
         }
         return itemStack;
     }
-    
+
     @Override
     public boolean shouldRefresh(World world, BlockPos blockPos, IBlockState oldState, IBlockState newState)
     {
@@ -106,7 +106,7 @@ public class TileEntityMagnetChest extends TileEntityChest
 
     /**
      * Come from Trapcraft(<a>https://github.com/percivalalb/Trapcraft</a>)
-     * 
+     *
      * @author ProPercivalalb
      */
     public void pullItemsIn()

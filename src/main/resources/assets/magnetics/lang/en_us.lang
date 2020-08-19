@@ -35,6 +35,7 @@ tile.lightningArrester.name=Lightning arrester
 potion.paralysisparalysis
 
 container.magnetChest=Magnet chest
+container.lightningArrester=Lightning Arrester
 
 container.lock=Lock %s!
 container.unlock=Unlock %s!

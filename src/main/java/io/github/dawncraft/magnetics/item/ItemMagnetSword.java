@@ -9,10 +9,11 @@ import net.minecraft.item.ItemSword;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.NonNullList;
 import net.minecraftforge.common.IRarity;
+import net.minecraftforge.fml.relauncher.Side;
+import net.minecraftforge.fml.relauncher.SideOnly;
 
 /**
  * Magnet sword
- * TODO 磁能脉冲剑的类似于附魔的特效
  *
  * @author QingChenW
  */
@@ -34,6 +35,13 @@ public class ItemMagnetSword extends ItemSword
     {
         if (this.isPowered(stack)) return EnumRarity.EPIC;
         return super.getForgeRarity(stack);
+    }
+
+    @Override
+    @SideOnly(Side.CLIENT)
+    public boolean hasEffect(ItemStack stack)
+    {
+        return this.isPowered(stack) || super.hasEffect(stack);
     }
 
     @Override

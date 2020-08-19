@@ -13,6 +13,12 @@ import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 
+/**
+ * 从Dawncraft Mod复制过来的, 也许没啥用了
+ *
+ * @author QingChenW
+ */
+@Deprecated
 public class PotionMod extends Potion
 {
     private static final ResourceLocation POTION_TEXTURE = new ResourceLocation(MagneticsMod.MODID + ":" + "textures/gui/potion.png");

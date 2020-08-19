@@ -9,7 +9,8 @@ import net.minecraft.block.SoundType;
 import net.minecraft.block.material.Material;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.inventory.Container;
+import net.minecraft.inventory.InventoryHelper;
+import net.minecraft.item.ItemStack;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.EnumBlockRenderType;
 import net.minecraft.util.EnumFacing;
@@ -18,7 +19,15 @@ import net.minecraft.util.math.AxisAlignedBB;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
+import net.minecraftforge.items.CapabilityItemHandler;
+import net.minecraftforge.items.IItemHandler;
+import net.minecraftforge.items.ItemHandlerHelper;
 
+/**
+ * Lightning arrester
+ *
+ * @author QingChenW
+ */
 public class BlockLightningArrester extends BlockContainer
 {
     protected static final AxisAlignedBB AABB = new AxisAlignedBB(0.125D, 0.0D, 0.125D, 0.875D, 1.0D, 0.875D);
@@ -44,6 +53,12 @@ public class BlockLightningArrester extends BlockContainer
     }
 
     @Override
+    public EnumBlockRenderType getRenderType(IBlockState state)
+    {
+        return EnumBlockRenderType.MODEL;
+    }
+
+    @Override
     public AxisAlignedBB getBoundingBox(IBlockState state, IBlockAccess source, BlockPos pos)
     {
         return AABB;
@@ -64,7 +79,9 @@ public class BlockLightningArrester extends BlockContainer
     @Override
     public int getComparatorInputOverride(IBlockState blockState, World world, BlockPos pos)
     {
-        return Container.calcRedstone(world.getTileEntity(pos));
+        TileEntity tileEntity = world.getTileEntity(pos);
+        IItemHandler itemHandler = tileEntity.getCapability(CapabilityItemHandler.ITEM_HANDLER_CAPABILITY, EnumFacing.UP);
+        return ItemHandlerHelper.calcRedstoneFromInventory(itemHandler);
     }
 
     @Override
@@ -85,12 +102,19 @@ public class BlockLightningArrester extends BlockContainer
     @Override
     public void breakBlock(World world, BlockPos pos, IBlockState state)
     {
-
-    }
-
-    @Override
-    public EnumBlockRenderType getRenderType(IBlockState state)
-    {
-        return EnumBlockRenderType.MODEL;
+        TileEntity tileEntity = world.getTileEntity(pos);
+        IItemHandler itemHandler = tileEntity.getCapability(CapabilityItemHandler.ITEM_HANDLER_CAPABILITY, EnumFacing.UP);
+        if (itemHandler != null)
+        {
+            for (int i = 0; i < itemHandler.getSlots(); ++i)
+            {
+                ItemStack itemStack = itemHandler.getStackInSlot(i);
+                if (!itemStack.isEmpty())
+                {
+                    InventoryHelper.spawnItemStack(world, pos.getX(), pos.getY(), pos.getZ(), itemStack);
+                }
+            }
+            world.updateComparatorOutputLevel(pos, this);
+        }
     }
 }

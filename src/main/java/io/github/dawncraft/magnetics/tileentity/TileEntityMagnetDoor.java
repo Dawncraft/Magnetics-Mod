@@ -9,8 +9,8 @@ import net.minecraft.world.World;
 import net.minecraftforge.common.util.Constants;
 
 /**
- * Magnet door
- * 
+ * Magnet door's tile entity
+ *
  * @author QingChenW
  */
 public class TileEntityMagnetDoor extends TileEntity

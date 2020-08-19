@@ -25,8 +25,6 @@ import net.minecraftforge.fml.relauncher.SideOnly;
 
 /**
  * A magnet card that can generate a random id and also can be written by other mods.
- * <p>
- * TODO 磁卡加入hideflag选项允许持有者隐藏一些信息,行为类似于原版
  *
  * @author QingChenW
  */
@@ -55,10 +53,11 @@ public class ItemMagnetCard extends Item
         ItemStack stack = player.getHeldItem(hand);
         if (!world.isRemote)
         {
-            if (!stack.hasTagCompound() || !stack.getTagCompound().hasKey("UUID", Constants.NBT.TAG_STRING))
+            if (!stack.hasTagCompound()) stack.setTagCompound(new NBTTagCompound());
+            NBTTagCompound nbt = stack.getTagCompound();
+            if (!nbt.hasKey("UUID", Constants.NBT.TAG_STRING))
             {
                 ItemStack newStack = new ItemStack(ModItems.MAGNET_CARD);
-                NBTTagCompound nbt = new NBTTagCompound();
                 nbt.setString("UUID", UUID.randomUUID().toString());
                 nbt.setString("Owner", player.getName());
                 nbt.setString("Text", "");
@@ -77,6 +76,13 @@ public class ItemMagnetCard extends Item
         return new ActionResult<>(EnumActionResult.PASS, stack);
     }
 
+    /**
+     * 实现了类似原版的HideFlags
+     * 1为隐藏卡号
+     * 2为隐藏所有者
+     * 4为隐藏额外信息
+     * 7为全部隐藏
+     */
     @Override
     @SideOnly(Side.CLIENT)
     public void addInformation(ItemStack stack, @Nullable World world, List<String> tooltip, ITooltipFlag flag)
@@ -84,12 +90,23 @@ public class ItemMagnetCard extends Item
         if (stack.hasTagCompound())
         {
             NBTTagCompound nbt = stack.getTagCompound();
-            String uuid = nbt.getString("UUID");
-            if (!StringUtils.isNullOrEmpty(uuid)) tooltip.add(TextFormatting.GRAY + I18n.format(this.getTranslationKey() + ".desc.id", uuid));
-            String name = nbt.getString("Owner");
-            if (!StringUtils.isNullOrEmpty(name)) tooltip.add(TextFormatting.GRAY + I18n.format(this.getTranslationKey() + ".desc.name", name));
-            String text = nbt.getString("Text");
-            if (!StringUtils.isNullOrEmpty(text)) tooltip.add(TextFormatting.GRAY + I18n.format(this.getTranslationKey() + ".desc.text", text));
+            int hideFlags = nbt.hasKey("CardHideFlags", Constants.NBT.TAG_ANY_NUMERIC) ? nbt.getInteger("CardHideFlags") : 0;
+
+            if ((hideFlags & 1) == 0)
+            {
+                String uuid = nbt.getString("UUID");
+                if (!StringUtils.isNullOrEmpty(uuid)) tooltip.add(TextFormatting.GRAY + I18n.format(this.getTranslationKey() + ".desc.id", uuid));
+            }
+            if ((hideFlags & 2) == 0)
+            {
+                String name = nbt.getString("Owner");
+                if (!StringUtils.isNullOrEmpty(name)) tooltip.add(TextFormatting.GRAY + I18n.format(this.getTranslationKey() + ".desc.name", name));
+            }
+            if ((hideFlags & 4) == 0)
+            {
+                String text = nbt.getString("Text");
+                if (!StringUtils.isNullOrEmpty(text)) tooltip.add(TextFormatting.GRAY + I18n.format(this.getTranslationKey() + ".desc.text", text));
+            }
         }
         else
         {

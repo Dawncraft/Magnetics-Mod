@@ -1,27 +1,33 @@
 package io.github.dawncraft.magnetics.tileentity;
 
 import io.github.dawncraft.magnetics.item.ModItems;
+import net.minecraft.init.Items;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.EnumFacing;
+import net.minecraft.util.text.ITextComponent;
+import net.minecraft.util.text.TextComponentString;
+import net.minecraft.util.text.TextComponentTranslation;
+import net.minecraft.world.IWorldNameable;
 import net.minecraftforge.common.capabilities.Capability;
 import net.minecraftforge.items.CapabilityItemHandler;
 import net.minecraftforge.items.ItemStackHandler;
 
 /**
- * TODO 避雷针te的update及界面以及同步未实现
+ * Lightning arrester's tile entity
  *
  * @author QingChenW
  */
-public class TileEntityLightningArrester extends TileEntity
+public class TileEntityLightningArrester extends TileEntity implements IWorldNameable
 {
+    private String customName;
     private final ItemStackHandler inventory = new ItemStackHandler()
     {
         @Override
         public boolean isItemValid(int slot, ItemStack stack)
         {
-            return stack.getItem() == ModItems.MAGNET_SWORD || stack.getItem() == ModItems.MAGNET_WAND;
+            return stack.getItem() == Items.IRON_INGOT || stack.getItem() == ModItems.MAGNET_SWORD || stack.getItem() == ModItems.MAGNET_WAND;
         }
 
         @Override
@@ -34,7 +40,11 @@ public class TileEntityLightningArrester extends TileEntity
     public void lightningStrike()
     {
         ItemStack stack = this.inventory.getStackInSlot(0);
-        if (stack.getItem() == ModItems.MAGNET_SWORD || stack.getItem() == ModItems.MAGNET_WAND)
+        if (stack.getItem() == Items.IRON_INGOT)
+        {
+            this.inventory.setStackInSlot(0, new ItemStack(ModItems.MAGNET_INGOT));
+        }
+        else if (stack.getItem() == ModItems.MAGNET_SWORD || stack.getItem() == ModItems.MAGNET_WAND)
         {
             if (!stack.hasTagCompound()) stack.setTagCompound(new NBTTagCompound());
             NBTTagCompound nbt = stack.getTagCompound();
@@ -43,11 +53,34 @@ public class TileEntityLightningArrester extends TileEntity
     }
 
     @Override
+    public boolean hasCustomName()
+    {
+        return this.customName != null && !this.customName.isEmpty();
+    }
+
+    public void setCustomName(String name)
+    {
+        this.customName = name;
+    }
+
+    @Override
+    public String getName()
+    {
+        return this.hasCustomName() ? this.customName : "container.lightningArrester";
+    }
+
+    @Override
+    public ITextComponent getDisplayName()
+    {
+        return this.hasCustomName() ? new TextComponentString(this.getName()) : new TextComponentTranslation(this.getName());
+    }
+
+    @Override
     public boolean hasCapability(Capability<?> capability, EnumFacing facing)
     {
         if (capability == CapabilityItemHandler.ITEM_HANDLER_CAPABILITY)
         {
-            return facing == EnumFacing.UP;
+            return facing != EnumFacing.DOWN;
         }
         return super.hasCapability(capability, facing);
     }

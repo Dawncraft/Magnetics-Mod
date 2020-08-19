@@ -12,6 +12,7 @@ import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 
 /**
+ * Events' listener
  *
  * @author QingChenW
  */
@@ -40,7 +41,7 @@ public class EventListener
                 if (tileentity instanceof TileEntityLightningArrester)
                 {
                     double query_distance = tileentity.getPos().distanceSq(pos);
-                    if (query_distance < 4096.0D && (query_distance < distance || distance == 0.0D))
+                    if (query_distance < 16384.0D && (query_distance < distance || distance == 0.0D))
                     {
                         distance = query_distance;
                         tileentityLightningArrester = (TileEntityLightningArrester) tileentity;
