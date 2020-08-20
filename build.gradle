@@ -1,9 +1,7 @@
 buildscript {
     repositories {
-        // maven { url = "https://lss233.com/artifactory/jcenter" }
-        // maven { url = "https://lss233.com/artifactory/minecraft" }
         // maven { url = 'https://maven.aliyun.com/repository/central' }
-        // maven { url = 'https://maven.aliyun.com/repository/jcenter' }
+        // maven { url = "https://lss233.com/artifactory/minecraft" }
         jcenter()
         maven { url = "https://files.minecraftforge.net/maven" }
     }
@@ -32,8 +30,26 @@ minecraft {
     // makeObfSourceJar = false
 }
 
-dependencies {
+repositories {
+  maven {
+    // JEI maven
+    name = "Progwml6 maven"
+    url = "https://dvs1.progwml6.com/files/maven/"
+  }
+  maven {
+    // ic2 maven
+    name = "ic2"
+    url = "http://maven.ic2.player.to/"
+  }
+}
 
+dependencies {
+    // jei集成
+    deobfProvided "mezz.jei:jei_1.12.2:4.15.0.+:api"
+    runtime "mezz.jei:jei_1.12.2:4.15.0.+"
+    // 工业2
+    deobfCompile "net.industrial-craft:industrialcraft-2:2.8.+:api"
+    runtime "net.industrial-craft:industrialcraft-2:2.8.+"
 }
 
 processResources {

@@ -30,6 +30,7 @@ import net.minecraft.world.World;
 
 /**
  * Magnet door
+ * TODO 磁铁活版门
  *
  * @author QingChenW
  */
@@ -110,7 +111,6 @@ public class BlockMagnetDoor extends BlockDoor implements ITileEntityProvider
         }
     }
 
-    // TODO 消息中的磁铁门名称未本地化
     @Override
     public boolean onBlockActivated(World world, BlockPos pos, IBlockState state, EntityPlayer player, EnumHand hand, EnumFacing facing, float hitX, float hitY, float hitZ)
     {
@@ -145,7 +145,7 @@ public class BlockMagnetDoor extends BlockDoor implements ITileEntityProvider
                                     else
                                     {
                                         tileentityMagnetDoor.resetUUID();
-                                        player.sendStatusMessage(new TextComponentTranslation("container.unlock", this.getLocalizedName()), true);
+                                        player.sendStatusMessage(new TextComponentTranslation("container.unlock", new TextComponentTranslation(this.getTranslationKey() + ".name")), true);
                                         return true;
                                     }
                                 }
@@ -164,7 +164,7 @@ public class BlockMagnetDoor extends BlockDoor implements ITileEntityProvider
                                     if (player.isSneaking())
                                     {
                                         tileentityMagnetDoor.setUUID(UUID);
-                                        player.sendStatusMessage(new TextComponentTranslation("container.lock", this.getLocalizedName()), true);
+                                        player.sendStatusMessage(new TextComponentTranslation("container.lock", new TextComponentTranslation(this.getTranslationKey() + ".name")), true);
                                         return true;
                                     }
                                 }
@@ -180,7 +180,7 @@ public class BlockMagnetDoor extends BlockDoor implements ITileEntityProvider
                     world.playEvent(null, state.getValue(OPEN).booleanValue() ? this.getOpenSound() : this.getCloseSound(), pos, 0);
                     return true;
                 }
-                player.sendStatusMessage(new TextComponentTranslation("container.isLocked", this.getLocalizedName()), true);
+                player.sendStatusMessage(new TextComponentTranslation("container.isLocked", new TextComponentTranslation(this.getTranslationKey() + ".name")), true);
             }
         }
         return false;

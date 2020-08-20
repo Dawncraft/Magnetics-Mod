@@ -18,6 +18,7 @@ import net.minecraftforge.common.util.EnumHelper;
 import net.minecraftforge.event.RegistryEvent;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
+import net.minecraftforge.fml.common.registry.GameRegistry.ObjectHolder;
 
 /**
  * Register mod items.
@@ -53,6 +54,12 @@ public final class ModItems
     public static Item MAGNET_BOOTS;
     public static Item MAGNET_SWORD;
     public static Item MAGNET_WAND;
+
+    // Other mods
+    @ObjectHolder("ic2:re_battery")
+    public static final Item RE_BATTERY = null;
+    @ObjectHolder("ic2:advanced_re_battery")
+    public static final Item ADVANCED_RE_BATTERY = null;
 
     @SubscribeEvent
     public static void registerItems(RegistryEvent.Register<Item> event)

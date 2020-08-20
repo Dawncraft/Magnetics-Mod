@@ -43,5 +43,7 @@ container.isLocked=%s is locked!
 
 stat.lightningArresterInteraction=Lightning Arrester Interaction
 
+gui.magnetics.jei.category.lightingStrike=Lightning Strike
+
 config.magnetics.useSeparateCreativeTab=Use separate creative tab
 config.magnetics.useSeparateCreativeTab.tooltip=Whether use separate creative tab or not

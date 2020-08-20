@@ -48,5 +48,7 @@ achievement.magnetics.magnetCard.desc=记录你的磁卡信息,然后把它刷�
 
 stat.lightningArresterInteraction=与避雷针互动次数
 
+gui.magnetics.jei.category.lightingStrike=雷击
+
 config.magnetics.useSeparateCreativeTab=使用单独物品栏
 config.magnetics.useSeparateCreativeTab.tooltip=磁学Mod的物品是否使用单独的创造模式物品栏

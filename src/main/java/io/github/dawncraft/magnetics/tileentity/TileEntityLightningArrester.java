@@ -1,7 +1,6 @@
 package io.github.dawncraft.magnetics.tileentity;
 
-import io.github.dawncraft.magnetics.item.ModItems;
-import net.minecraft.init.Items;
+import io.github.dawncraft.magnetics.api.recipe.LightningStrikeRecipeManager;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.tileentity.TileEntity;
@@ -27,7 +26,7 @@ public class TileEntityLightningArrester extends TileEntity implements IWorldNam
         @Override
         public boolean isItemValid(int slot, ItemStack stack)
         {
-            return stack.getItem() == Items.IRON_INGOT || stack.getItem() == ModItems.MAGNET_SWORD || stack.getItem() == ModItems.MAGNET_WAND;
+            return LightningStrikeRecipeManager.getInstance().hasRecipe(stack.getItem());
         }
 
         @Override
@@ -40,16 +39,7 @@ public class TileEntityLightningArrester extends TileEntity implements IWorldNam
     public void lightningStrike()
     {
         ItemStack stack = this.inventory.getStackInSlot(0);
-        if (stack.getItem() == Items.IRON_INGOT)
-        {
-            this.inventory.setStackInSlot(0, new ItemStack(ModItems.MAGNET_INGOT));
-        }
-        else if (stack.getItem() == ModItems.MAGNET_SWORD || stack.getItem() == ModItems.MAGNET_WAND)
-        {
-            if (!stack.hasTagCompound()) stack.setTagCompound(new NBTTagCompound());
-            NBTTagCompound nbt = stack.getTagCompound();
-            nbt.setBoolean("isPowered", true);
-        }
+        this.inventory.setStackInSlot(0, LightningStrikeRecipeManager.getInstance().getResult(stack));
     }
 
     @Override
