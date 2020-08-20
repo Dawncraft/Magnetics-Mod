@@ -145,7 +145,7 @@ public class BlockMagnetDoor extends BlockDoor implements ITileEntityProvider
                                     else
                                     {
                                         tileentityMagnetDoor.resetUUID();
-                                        player.sendStatusMessage(new TextComponentTranslation("container.unlock", new TextComponentTranslation(this.getTranslationKey() + ".name")), true);
+                                        player.sendStatusMessage(new TextComponentTranslation("container.unlock", new TextComponentTranslation(this.getItem().getTranslationKey() + ".name")), true);
                                         return true;
                                     }
                                 }
@@ -164,7 +164,7 @@ public class BlockMagnetDoor extends BlockDoor implements ITileEntityProvider
                                     if (player.isSneaking())
                                     {
                                         tileentityMagnetDoor.setUUID(UUID);
-                                        player.sendStatusMessage(new TextComponentTranslation("container.lock", new TextComponentTranslation(this.getTranslationKey() + ".name")), true);
+                                        player.sendStatusMessage(new TextComponentTranslation("container.lock", new TextComponentTranslation(this.getItem().getTranslationKey() + ".name")), true);
                                         return true;
                                     }
                                 }
@@ -180,7 +180,7 @@ public class BlockMagnetDoor extends BlockDoor implements ITileEntityProvider
                     world.playEvent(null, state.getValue(OPEN).booleanValue() ? this.getOpenSound() : this.getCloseSound(), pos, 0);
                     return true;
                 }
-                player.sendStatusMessage(new TextComponentTranslation("container.isLocked", new TextComponentTranslation(this.getTranslationKey() + ".name")), true);
+                player.sendStatusMessage(new TextComponentTranslation("container.isLocked", new TextComponentTranslation(this.getItem().getTranslationKey() + ".name")), true);
             }
         }
         return false;

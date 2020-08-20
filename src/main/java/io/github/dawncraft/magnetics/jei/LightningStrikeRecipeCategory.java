@@ -8,8 +8,8 @@ import mezz.jei.api.gui.IGuiItemStackGroup;
 import mezz.jei.api.gui.IRecipeLayout;
 import mezz.jei.api.ingredients.IIngredients;
 import mezz.jei.api.recipe.IRecipeCategory;
-import mezz.jei.util.Translator;
 import net.minecraft.item.ItemStack;
+import net.minecraft.util.text.translation.I18n;
 
 public class LightningStrikeRecipeCategory implements IRecipeCategory<LightningStrikeRecipe>
 {
@@ -23,7 +23,7 @@ public class LightningStrikeRecipeCategory implements IRecipeCategory<LightningS
 
     public LightningStrikeRecipeCategory(IGuiHelper guiHelper)
     {
-        this.localizedName = Translator.translateToLocal("gui.magnetics.jei.category.lightingStrike");
+        this.localizedName = I18n.translateToLocal("gui.magnetics.jei.category.lightingStrike");
         this.icon = guiHelper.createDrawableIngredient(new ItemStack(ModBlocks.LIGHTNING_ARRESTER));
         this.background = guiHelper.createDrawable(MagneticsJEIPlugin.RECIPE_GUI, 0, 0, 78, 44);
     }
