@@ -1,0 +1,8 @@
+{
+    "block.pos_terminal.swipe": {
+        "sounds": [
+          "magnetics:random/pos_terminal"
+        ],
+        "subtitle": "subtitles.block.pos_terminal.swipe"
+      }
+}

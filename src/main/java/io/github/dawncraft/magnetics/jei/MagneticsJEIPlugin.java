@@ -5,6 +5,7 @@ import java.util.Map.Entry;
 import io.github.dawncraft.magnetics.MagneticsMod;
 import io.github.dawncraft.magnetics.api.recipe.LightningStrikeRecipeManager;
 import io.github.dawncraft.magnetics.api.recipe.LightningStrikeRecipeManager.IRecipe;
+import io.github.dawncraft.magnetics.block.ModBlocks;
 import io.github.dawncraft.magnetics.item.ModItems;
 import io.github.dawncraft.magnetics.recipe.LightningStrikeRecipeManagerImpl;
 import mezz.jei.api.IJeiRuntime;
@@ -39,6 +40,7 @@ public class MagneticsJEIPlugin implements IModPlugin
     @Override
     public void register(IModRegistry registry)
     {
+        registry.addRecipeCatalyst(new ItemStack(ModBlocks.LIGHTNING_ARRESTER), LightningStrikeRecipeCategory.LIGHTNING_STRIKE);
         registry.handleRecipes(LightningStrikeRecipeManager.IRecipe.class, new IRecipeWrapperFactory<LightningStrikeRecipeManager.IRecipe>()
         {
             @Override

@@ -115,7 +115,7 @@ public class TileEntityMagnetChest extends TileEntityChest
         double centreY = this.pos.getY() + 0.5D;
         double centreZ = this.pos.getZ() + 0.5D;
 
-        List<EntityItem> entities = this.world.getEntities(EntityItem.class, item -> item.getDistanceSq(centreX, centreY, centreZ) < 16D);
+        List<EntityItem> entities = this.world.getEntities(EntityItem.class, item -> item.getDistanceSq(centreX, centreY, centreZ) < 16.0D);
 
         for (EntityItem itemEntity : entities)
         {

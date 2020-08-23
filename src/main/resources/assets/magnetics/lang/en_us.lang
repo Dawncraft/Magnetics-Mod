@@ -25,23 +25,30 @@ item.magnetHelmet.name=Magnet Helmet
 item.magnetChestplate.name=Magnet Chestplate
 item.magnetLeggings.name=Magnet Leggings
 item.magnetBoots.name=Magnet Boots
+item.armor.magnetics:magnet.suit_effect=Add item picking range(%d/4)
+
+item.suit_effect=Suit effect:
 
 tile.magnetOre.name=Magnet ore
 tile.magnetBlock.name=Magnet block
 tile.magnetRail.name=Magnet rail
 tile.magnetChest.name=Magnet chest
 tile.lightningArrester.name=Lightning arrester
+tile.posTerminal.name=POS terminal
 
-potion.paralysisparalysis
+potion.paralysis=Paralysis
 
-container.magnetChest=Magnet chest
+container.magnetChest=Magnet Chest
 container.lightningArrester=Lightning Arrester
+container.posTerminal=POS Terminal
 
 container.lock=Lock %s!
 container.unlock=Unlock %s!
 container.isLocked=%s is locked!
 
 stat.lightningArresterInteraction=Lightning Arrester Interaction
+stat.posTerminalInteraction=POS Terminal Interaction
+stat.cardSwipe=Card Swipe Times
 
 gui.magnetics.jei.category.lightingStrike=Lightning Strike
 

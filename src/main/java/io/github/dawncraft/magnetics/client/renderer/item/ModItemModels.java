@@ -32,6 +32,7 @@ public class ModItemModels
         registerBlock(ModBlocks.MAGNET_CHEST);
         registerBlock(ModBlocks.MAGNET_RAIL);
         registerBlock(ModBlocks.LIGHTNING_ARRESTER);
+        registerBlock(ModBlocks.POS_TERMINAL);
 
         registerItem(ModItems.MAGNET_DOOR);
         registerItem(ModItems.MAGNET_CARD);

@@ -16,6 +16,7 @@ public class ModTileEntities
         registerTileEntity(TileEntityMagnetChest.class, "MagnetChest");
         registerTileEntity(TileEntityMagnetDoor.class, "MagnetDoor");
         registerTileEntity(TileEntityLightningArrester.class, "LightningArrester");
+        registerTileEntity(TileEntityPosTerminal.class, "PosTerminal");
     }
 
     /**

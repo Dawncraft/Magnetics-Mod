@@ -2,6 +2,8 @@ package io.github.dawncraft.magnetics.item;
 
 import io.github.dawncraft.magnetics.ConfigLoader;
 import io.github.dawncraft.magnetics.MagneticsMod;
+import io.github.dawncraft.magnetics.api.item.ItemArmorSuit;
+import io.github.dawncraft.magnetics.api.item.ItemModAxe;
 import io.github.dawncraft.magnetics.block.ModBlocks;
 import net.minecraft.block.Block;
 import net.minecraft.creativetab.CreativeTabs;
@@ -74,6 +76,7 @@ public final class ModItems
                 createItemForBlock(ModBlocks.MAGNET_CHEST),
                 createItemForBlock(ModBlocks.MAGNET_RAIL),
                 createItemForBlock(ModBlocks.LIGHTNING_ARRESTER),
+                createItemForBlock(ModBlocks.POS_TERMINAL),
 
                 MAGNET_DOOR = new ItemMagnetDoor().setCreativeTab(flag ? ModCreativeTabs.MAGNETICS : CreativeTabs.REDSTONE).setTranslationKey("magnetDoor").setRegistryName("magnet_door"),
 
@@ -90,10 +93,10 @@ public final class ModItems
                 // MAGNET_HAMMER = new ItemHammer(MAGNET_TOOL).setCreativeTab(flag ? ModCreativeTabs.MAGNETICS : CreativeTabs.TOOLS).setTranslationKey("magnetHammer").setRegistryName("magnet_hammer"),
                 MAGNET_SWORD = new ItemMagnetSword(MAGNET_TOOL).setCreativeTab(flag ? ModCreativeTabs.MAGNETICS : CreativeTabs.COMBAT).setTranslationKey("magnetSword").setRegistryName("magnet_sword"),
                 MAGNET_WAND = new ItemMagnetWand(MAGNET_TOOL).setCreativeTab(flag ? ModCreativeTabs.MAGNETICS : CreativeTabs.COMBAT).setTranslationKey("magnetWand").setRegistryName("magnet_wand"),
-                MAGNET_HELMET = new ItemArmor(MAGNET_ARMOR, MAGNET_ARMOR.ordinal(), EntityEquipmentSlot.HEAD).setCreativeTab(flag ? ModCreativeTabs.MAGNETICS : CreativeTabs.COMBAT).setTranslationKey("magnetHelmet").setRegistryName("magnet_helmet"),
-                MAGNET_CHESTPLATE = new ItemArmor(MAGNET_ARMOR, MAGNET_ARMOR.ordinal(), EntityEquipmentSlot.CHEST).setCreativeTab(flag ? ModCreativeTabs.MAGNETICS : CreativeTabs.COMBAT).setTranslationKey("magnetChestplate").setRegistryName("magnet_chestplate"),
-                MAGNET_LEGGINGS = new ItemArmor(MAGNET_ARMOR, MAGNET_ARMOR.ordinal(), EntityEquipmentSlot.LEGS).setCreativeTab(flag ? ModCreativeTabs.MAGNETICS : CreativeTabs.COMBAT).setTranslationKey("magnetLeggings").setRegistryName("magnet_leggings"),
-                MAGNET_BOOTS = new ItemArmor(MAGNET_ARMOR, MAGNET_ARMOR.ordinal(), EntityEquipmentSlot.FEET).setCreativeTab(flag ? ModCreativeTabs.MAGNETICS : CreativeTabs.COMBAT).setTranslationKey("magnetBoots").setRegistryName("magnet_boots")
+                MAGNET_HELMET = new ItemArmorSuit(MAGNET_ARMOR, MAGNET_ARMOR.ordinal(), EntityEquipmentSlot.HEAD).setCreativeTab(flag ? ModCreativeTabs.MAGNETICS : CreativeTabs.COMBAT).setTranslationKey("magnetHelmet").setRegistryName("magnet_helmet"),
+                MAGNET_CHESTPLATE = new ItemArmorSuit(MAGNET_ARMOR, MAGNET_ARMOR.ordinal(), EntityEquipmentSlot.CHEST).setCreativeTab(flag ? ModCreativeTabs.MAGNETICS : CreativeTabs.COMBAT).setTranslationKey("magnetChestplate").setRegistryName("magnet_chestplate"),
+                MAGNET_LEGGINGS = new ItemArmorSuit(MAGNET_ARMOR, MAGNET_ARMOR.ordinal(), EntityEquipmentSlot.LEGS).setCreativeTab(flag ? ModCreativeTabs.MAGNETICS : CreativeTabs.COMBAT).setTranslationKey("magnetLeggings").setRegistryName("magnet_leggings"),
+                MAGNET_BOOTS = new ItemArmorSuit(MAGNET_ARMOR, MAGNET_ARMOR.ordinal(), EntityEquipmentSlot.FEET).setCreativeTab(flag ? ModCreativeTabs.MAGNETICS : CreativeTabs.COMBAT).setTranslationKey("magnetBoots").setRegistryName("magnet_boots")
                 );
     }
 

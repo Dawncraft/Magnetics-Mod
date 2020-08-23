@@ -18,6 +18,7 @@ import net.minecraftforge.fml.relauncher.SideOnly;
 public class ModGuiHandler implements IGuiHandler
 {
     public static final int GUI_LIGHTNING_ARRESTER = 1;
+    public static final int GUI_POS_TERMINAL = 2;
 
     public static void init()
     {
@@ -30,6 +31,7 @@ public class ModGuiHandler implements IGuiHandler
         switch (ID)
         {
         case GUI_LIGHTNING_ARRESTER: return new ContainerLightningArrester(player.inventory, player.world.getTileEntity(new BlockPos(x, y, z)));
+        case GUI_POS_TERMINAL: return null;
         }
         return null;
     }
@@ -41,6 +43,7 @@ public class ModGuiHandler implements IGuiHandler
         switch (ID)
         {
         case GUI_LIGHTNING_ARRESTER: return new GuiLightningArrester(player.inventory, player.world.getTileEntity(new BlockPos(x, y, z)));
+        case GUI_POS_TERMINAL: return null;
         }
         return null;
     }

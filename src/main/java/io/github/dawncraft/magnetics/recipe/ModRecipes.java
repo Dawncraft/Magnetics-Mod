@@ -43,8 +43,10 @@ public class ModRecipes
                 @Override
                 public ItemStack getResult(ItemStack input)
                 {
-                    input.getTagCompound().setDouble("charge", 10000.0D);
-                    return input;
+                    ItemStack output = input.copy();
+                    if (!output.hasTagCompound()) output.setTagCompound(new NBTTagCompound());
+                    output.getTagCompound().setDouble("charge", 10000.0D);
+                    return output;
                 }
             });
             registerLightningStrikeRecipe(ModItems.ADVANCED_RE_BATTERY, new LightningStrikeRecipeManager.IRecipe()
@@ -58,7 +60,9 @@ public class ModRecipes
                 @Override
                 public ItemStack getResult(ItemStack input)
                 {
-                    input.getTagCompound().setDouble("charge", 100000.0D);
+                    ItemStack output = input.copy();
+                    if (!output.hasTagCompound()) output.setTagCompound(new NBTTagCompound());
+                    output.getTagCompound().setDouble("charge", 100000.0D);
                     return input;
                 }
             });

@@ -1,14 +1,17 @@
 package io.github.dawncraft.magnetics.tileentity;
 
 import io.github.dawncraft.magnetics.api.recipe.LightningStrikeRecipeManager;
+import net.minecraft.block.state.IBlockState;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.EnumFacing;
+import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.text.ITextComponent;
 import net.minecraft.util.text.TextComponentString;
 import net.minecraft.util.text.TextComponentTranslation;
 import net.minecraft.world.IWorldNameable;
+import net.minecraft.world.World;
 import net.minecraftforge.common.capabilities.Capability;
 import net.minecraftforge.items.CapabilityItemHandler;
 import net.minecraftforge.items.ItemStackHandler;
@@ -35,6 +38,12 @@ public class TileEntityLightningArrester extends TileEntity implements IWorldNam
             return 1;
         }
     };
+
+    @Override
+    public boolean shouldRefresh(World world, BlockPos blockPos, IBlockState oldState, IBlockState newState)
+    {
+        return oldState.getBlock() != newState.getBlock();
+    }
 
     public void lightningStrike()
     {

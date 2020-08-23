@@ -31,16 +31,27 @@ minecraft {
 }
 
 repositories {
+/*
   maven {
     // JEI maven
     name = "Progwml6 maven"
     url = "https://dvs1.progwml6.com/files/maven/"
+  }
+*/
+  maven {
+    // location of a maven mirror for JEI files, as a fallback
+    name = "ModMaven"
+    url = "https://modmaven.k-4u.nl"
   }
   maven {
     // ic2 maven
     name = "ic2"
     url = "http://maven.ic2.player.to/"
   }
+  // CC: Tweaked maven
+  maven { url = "https://squiddev.cc/maven/" }
+  // Open Computers maven
+  maven { url = "http://maven.cil.li/" }
 }
 
 dependencies {
@@ -50,6 +61,11 @@ dependencies {
     // 工业2
     deobfCompile "net.industrial-craft:industrialcraft-2:2.8.+:api"
     runtime "net.industrial-craft:industrialcraft-2:2.8.+"
+    // 电脑工艺重制版
+    runtime "org.squiddev:cc-tweaked-1.12.2:1.89.+"
+    // 开放式电脑
+    deobfCompile "li.cil.oc:OpenComputers:MC1.12.2-1.7.+:api"
+    runtime "li.cil.oc:OpenComputers:MC1.12.2-1.7.+"
 }
 
 processResources {

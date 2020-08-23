@@ -15,8 +15,9 @@ public class ModOreDictionary
 {
     public static void init()
     {
-        registerOre("blockMagnet", ModBlocks.MAGNET_BLOCK);
+        registerOre("magnet", ModItems.MAGNET);
         registerOre("ingotMagnet", ModItems.MAGNET_INGOT);
+        registerOre("blockMagnet", ModBlocks.MAGNET_BLOCK);
     }
 
     public static void registerOre(String name, Item ore)

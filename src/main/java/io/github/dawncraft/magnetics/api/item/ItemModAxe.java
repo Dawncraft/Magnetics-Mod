@@ -1,4 +1,4 @@
-package io.github.dawncraft.magnetics.item;
+package io.github.dawncraft.magnetics.api.item;
 
 import net.minecraft.item.ItemAxe;
 

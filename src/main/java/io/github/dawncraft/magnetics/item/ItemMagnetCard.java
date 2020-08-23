@@ -5,6 +5,7 @@ import java.util.UUID;
 
 import javax.annotation.Nullable;
 
+import io.github.dawncraft.magnetics.api.item.IItemCard;
 import net.minecraft.client.resources.I18n;
 import net.minecraft.client.util.ITooltipFlag;
 import net.minecraft.entity.player.EntityPlayer;
@@ -28,7 +29,7 @@ import net.minecraftforge.fml.relauncher.SideOnly;
  *
  * @author QingChenW
  */
-public class ItemMagnetCard extends Item
+public class ItemMagnetCard extends Item implements IItemCard
 {
     public ItemMagnetCard()
     {
@@ -111,6 +112,43 @@ public class ItemMagnetCard extends Item
         else
         {
             tooltip.add(TextFormatting.GRAY + I18n.format(this.getTranslationKey() + ".desc.blank"));
+        }
+    }
+
+    @Override
+    public String getData(ItemStack stack, String key)
+    {
+        if (stack.hasTagCompound())
+        {
+            NBTTagCompound nbt = stack.getTagCompound();
+            if (key == "UUID" || key == "Owner" || key == "Text")
+            {
+                return nbt.getString(key);
+            }
+            else if (nbt.hasKey("Data", Constants.NBT.TAG_COMPOUND))
+            {
+                nbt.getCompoundTag("Data").getString(key);
+            }
+        }
+        return null;
+    }
+
+    @Override
+    public void setData(ItemStack stack, String key, String value)
+    {
+        if (!stack.hasTagCompound()) stack.setTagCompound(new NBTTagCompound());
+        NBTTagCompound nbt = stack.getTagCompound();
+        if (key == "UUID" || key == "Owner")
+        {
+            throw new IItemCard.WriteException("write-protect");
+        }
+        else if (key == "Text")
+        {
+            nbt.setString(key, value);
+        }
+        else if (nbt.hasKey("Data", Constants.NBT.TAG_COMPOUND))
+        {
+            nbt.getCompoundTag("Data").setString(key, value);
         }
     }
 }

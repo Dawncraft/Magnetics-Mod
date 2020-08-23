@@ -4,8 +4,9 @@ import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 
 /**
+ * LightningStrikeRecipeManager
  *
- *
+ * @since 1.0.0
  * @author QingChenW
  */
 public abstract class LightningStrikeRecipeManager

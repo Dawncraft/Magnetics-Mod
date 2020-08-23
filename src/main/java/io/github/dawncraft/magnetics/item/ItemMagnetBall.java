@@ -1,7 +1,9 @@
 package io.github.dawncraft.magnetics.item;
 
 import io.github.dawncraft.magnetics.entity.projectile.EntityMagnetBall;
+import io.github.dawncraft.magnetics.util.Utils;
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.init.Blocks;
 import net.minecraft.init.SoundEvents;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
@@ -12,7 +14,6 @@ import net.minecraft.util.EnumHand;
 import net.minecraft.util.SoundCategory;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
-import net.minecraft.world.WorldServer;
 
 /**
  * Magnet ball.
@@ -37,7 +38,7 @@ public class ItemMagnetBall extends Item
         if (!world.isRemote)
         {
             EntityMagnetBall entityMagnetBall = new EntityMagnetBall(world, player);
-            BlockPos blockPos = ((WorldServer) world).getChunkProvider().getNearestStructurePos(world, "", new BlockPos(player), false); // TODO 磁力球寻找目标
+            BlockPos blockPos = Utils.findBlock(Blocks.IRON_ORE, world, new BlockPos(player), 64);
             if (blockPos != null) entityMagnetBall.shoot(blockPos.getX(), blockPos.getY(), blockPos.getZ(), 1.0F, 0.5F);
             else entityMagnetBall.shoot(player, player.rotationPitch, player.rotationYaw, 0.0F, 1.0F, 0.5F);
             world.spawnEntity(entityMagnetBall);

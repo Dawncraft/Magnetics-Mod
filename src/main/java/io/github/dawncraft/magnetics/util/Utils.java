@@ -3,14 +3,17 @@ package io.github.dawncraft.magnetics.util;
 import java.util.List;
 
 import io.github.dawncraft.magnetics.potion.ModPotions;
+import net.minecraft.block.Block;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.effect.EntityLightningBolt;
 import net.minecraft.potion.PotionEffect;
 import net.minecraft.util.math.AxisAlignedBB;
+import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.RayTraceResult;
 import net.minecraft.util.math.Vec3d;
 import net.minecraft.world.World;
+import net.minecraft.world.WorldServer;
 import net.minecraftforge.event.ForgeEventFactory;
 
 /**
@@ -63,6 +66,22 @@ public class Utils
         }
 
         return raytraceResult;
+    }
+
+    /**
+     * TODO 磁力球寻找目标
+     * 目前会用找人工矿洞结构来代替,毕竟矿洞里全是铁嘛(bushi)
+     *
+     * @param target
+     * @param world
+     * @param start
+     * @param range
+     * @return
+     */
+    public static BlockPos findBlock(Block target, World world, BlockPos start, int range)
+    {
+        BlockPos result = ((WorldServer) world).getChunkProvider().getNearestStructurePos(world, "Mineshaft", start, false);
+        return result;
     }
 
     /**
