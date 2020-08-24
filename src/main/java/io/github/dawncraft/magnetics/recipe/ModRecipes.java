@@ -1,5 +1,6 @@
 package io.github.dawncraft.magnetics.recipe;
 
+import io.github.dawncraft.magnetics.CommonProxy;
 import io.github.dawncraft.magnetics.MagneticsMod;
 import io.github.dawncraft.magnetics.api.recipe.LightningStrikeRecipeManager;
 import io.github.dawncraft.magnetics.block.ModBlocks;
@@ -30,7 +31,7 @@ public class ModRecipes
         registerLightningStrikeRecipe(ModItems.MAGNET_SWORD, new MagnetWeaponRecipe());
         registerLightningStrikeRecipe(ModItems.MAGNET_WAND, new MagnetWeaponRecipe());
 
-        if (MagneticsMod.isIC2Loaded)
+        if (CommonProxy.isIC2Loaded)
         {
             registerLightningStrikeRecipe(ModItems.RE_BATTERY, new LightningStrikeRecipeManager.IRecipe()
             {

@@ -1,8 +1,8 @@
 {
     "variants": {
         "facing=north": { "model": "magnetics:pos_terminal" },
-        "facing=east": { "model": "magnetics:pos_terminal", "y": 90, "uvlock": true },
-        "facing=south": { "model": "magnetics:pos_terminal", "y": 180, "uvlock": true },
-        "facing=west": { "model": "magnetics:pos_terminal", "y": 270, "uvlock": true }
+        "facing=east": { "model": "magnetics:pos_terminal", "y": 90 },
+        "facing=south": { "model": "magnetics:pos_terminal", "y": 180 },
+        "facing=west": { "model": "magnetics:pos_terminal", "y": 270 }
     }
 }

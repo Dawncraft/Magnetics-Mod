@@ -1,5 +1,8 @@
 package io.github.dawncraft.magnetics.block;
 
+import dan200.computercraft.api.peripheral.IPeripheral;
+import dan200.computercraft.api.peripheral.IPeripheralProvider;
+import io.github.dawncraft.magnetics.CommonProxy;
 import io.github.dawncraft.magnetics.MagneticsMod;
 import io.github.dawncraft.magnetics.api.item.IItemCard;
 import io.github.dawncraft.magnetics.container.ModGuiHandler;
@@ -27,14 +30,22 @@ import net.minecraft.util.math.AxisAlignedBB;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
+import net.minecraftforge.fml.common.Optional;
 import net.minecraftforge.items.CapabilityItemHandler;
 import net.minecraftforge.items.IItemHandler;
 import net.minecraftforge.items.ItemHandlerHelper;
 
-public class BlockPosTerminal extends BlockContainer
+/**
+ * POS Terminal
+ *
+ * @author QingChenW
+ */
+@Optional.Interface(iface = "dan200.computercraft.api.peripheral.IPeripheralProvider", modid = CommonProxy.CC_MODID)
+public class BlockPosTerminal extends BlockContainer implements IPeripheralProvider
 {
     public static final PropertyDirection FACING = BlockHorizontal.FACING;
-    protected static final AxisAlignedBB AABB = new AxisAlignedBB(0.125D, 0.0D, 0.125D, 0.875D, 0.5D, 0.875D);
+    protected static final AxisAlignedBB AABB_NS = new AxisAlignedBB(0.3125D, 0.0D, 0.125D, 0.6875D, 0.3125D, 0.875D);
+    protected static final AxisAlignedBB AABB_WE = new AxisAlignedBB(0.125D, 0.0D, 0.3125D, 0.875D, 0.3125D, 0.6875D);
 
     public BlockPosTerminal(Material material)
     {
@@ -103,7 +114,15 @@ public class BlockPosTerminal extends BlockContainer
     @Override
     public AxisAlignedBB getBoundingBox(IBlockState state, IBlockAccess source, BlockPos pos)
     {
-        return AABB;
+        EnumFacing facing = state.getValue(FACING);
+        if (facing == EnumFacing.NORTH || facing == EnumFacing.SOUTH) return AABB_NS;
+        return AABB_WE;
+    }
+
+    @Override
+    public BlockFaceShape getBlockFaceShape(IBlockAccess world, IBlockState state, BlockPos pos, EnumFacing face)
+    {
+        return BlockFaceShape.CENTER_SMALL;
     }
 
     @Override
@@ -175,5 +194,13 @@ public class BlockPosTerminal extends BlockContainer
             }
             world.updateComparatorOutputLevel(pos, this);
         }
+    }
+
+    @Override
+    @Optional.Method(modid = CommonProxy.CC_MODID)
+    public IPeripheral getPeripheral(World world, BlockPos pos, EnumFacing side)
+    {
+        TileEntity tileentity = world.getTileEntity(pos);
+        return (tileentity instanceof TileEntityPosTerminal) ? (TileEntityPosTerminal) tileentity : null;
     }
 }

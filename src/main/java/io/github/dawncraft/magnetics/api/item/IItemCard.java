@@ -19,6 +19,11 @@ public interface IItemCard
 
     public static class WriteException extends RuntimeException
     {
+        /**
+         * read-only
+         * write-protect
+         * card-broken
+         */
         public String reason;
 
         public WriteException(String reason)

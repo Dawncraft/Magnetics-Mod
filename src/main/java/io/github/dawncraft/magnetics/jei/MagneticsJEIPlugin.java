@@ -35,7 +35,10 @@ public class MagneticsJEIPlugin implements IModPlugin
         }
     };
 
-    public MagneticsJEIPlugin() {}
+    public MagneticsJEIPlugin()
+    {
+        MagneticsMod.logger().info("Magnetics Mod JEI integration is enabled.");
+    }
 
     @Override
     public void register(IModRegistry registry)

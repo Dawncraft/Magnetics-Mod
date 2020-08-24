@@ -2,7 +2,6 @@ package io.github.dawncraft.magnetics;
 
 import org.apache.logging.log4j.Logger;
 
-import net.minecraftforge.fml.common.Loader;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.common.Mod.EventHandler;
 import net.minecraftforge.fml.common.Mod.Instance;
@@ -35,23 +34,10 @@ public class MagneticsMod
 
     private static Logger logger;
 
-    public static boolean isJEILoaded;
-    public static boolean isIC2Loaded;
-    public static boolean isCCLoaded;
-    public static boolean isOCLoaded;
-
     @EventHandler
     public void preInit(FMLPreInitializationEvent event)
     {
         logger = event.getModLog();
-        isJEILoaded = Loader.isModLoaded("jei");
-        if (isJEILoaded) logger.info("JEI was detected, enabling JEI integration.");
-        isIC2Loaded = Loader.isModLoaded("ic2");
-        if (isIC2Loaded) logger.info("IC2 was detected, enabling the feature.");
-        isCCLoaded = Loader.isModLoaded("computercraft");
-        if (isIC2Loaded) logger.info("ComputerCraft was detected, enabling the feature.");
-        isOCLoaded = Loader.isModLoaded("opencomputers");
-        if (isIC2Loaded) logger.info("OpenComputers was detected, enabling the feature.");
         proxy.preInit(event);
     }
 

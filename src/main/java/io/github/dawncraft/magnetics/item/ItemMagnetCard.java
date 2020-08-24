@@ -121,13 +121,17 @@ public class ItemMagnetCard extends Item implements IItemCard
         if (stack.hasTagCompound())
         {
             NBTTagCompound nbt = stack.getTagCompound();
-            if (key == "UUID" || key == "Owner" || key == "Text")
+            if (key.equals("UUID") || key.equals("Owner") || key.equals("Text"))
             {
                 return nbt.getString(key);
             }
-            else if (nbt.hasKey("Data", Constants.NBT.TAG_COMPOUND))
+            else if (key.equals("CardHideFlags"))
             {
-                nbt.getCompoundTag("Data").getString(key);
+                return "" + nbt.getInteger(key);
+            }
+            else
+            {
+                return stack.getOrCreateSubCompound("Data").getString(key);
             }
         }
         return null;
@@ -138,17 +142,21 @@ public class ItemMagnetCard extends Item implements IItemCard
     {
         if (!stack.hasTagCompound()) stack.setTagCompound(new NBTTagCompound());
         NBTTagCompound nbt = stack.getTagCompound();
-        if (key == "UUID" || key == "Owner")
+        if (key.equals("UUID") || key.equals("Owner"))
         {
-            throw new IItemCard.WriteException("write-protect");
+            throw new IItemCard.WriteException("read-only");
         }
-        else if (key == "Text")
+        else if (key.equals("Text"))
         {
             nbt.setString(key, value);
         }
-        else if (nbt.hasKey("Data", Constants.NBT.TAG_COMPOUND))
+        else if (key.equals("CardHideFlags"))
         {
-            nbt.getCompoundTag("Data").setString(key, value);
+            nbt.setInteger(key, Integer.valueOf(value));
+        }
+        else
+        {
+            stack.getOrCreateSubCompound("Data").setString(key, value);
         }
     }
 }
