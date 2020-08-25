@@ -24,7 +24,7 @@ public class ContainerPosTerminal extends Container
     {
         this.tileentityPosTerminal = (TileEntityPosTerminal) tileEntity;
         IItemHandler itemHander = tileEntity.getCapability(CapabilityItemHandler.ITEM_HANDLER_CAPABILITY, null);
-        this.addSlotToContainer(new SlotItemHandler(itemHander, 0, 17, 18));
+        this.addSlotToContainer(new SlotItemHandler(itemHander, 0, 17, 8));
         for (int i = 0; i < 3; ++i)
         {
             for (int j = 0; j < 9; ++j)

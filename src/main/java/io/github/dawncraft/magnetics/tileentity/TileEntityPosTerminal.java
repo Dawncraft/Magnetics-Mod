@@ -1,5 +1,8 @@
 package io.github.dawncraft.magnetics.tileentity;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import dan200.computercraft.api.lua.ILuaContext;
 import dan200.computercraft.api.lua.LuaException;
 import dan200.computercraft.api.peripheral.IComputerAccess;
@@ -61,6 +64,14 @@ public class TileEntityPosTerminal extends TileEntity implements IWorldNameable,
             return 1;
         }
     };
+
+    public TileEntityPosTerminal()
+    {
+        if (CommonProxy.isOCLoaded)
+        {
+            this.node = Network.newNode(this, Visibility.Network).withComponent(this.getComponentName()).withConnector(0.01D).create();
+        }
+    }
 
     @Override
     public boolean shouldRefresh(World world, BlockPos blockPos, IBlockState oldState, IBlockState newState)
@@ -205,6 +216,7 @@ public class TileEntityPosTerminal extends TileEntity implements IWorldNameable,
     {
         super.readFromNBT(tag);
         this.inventory.deserializeNBT(tag.getCompoundTag("Inventory"));
+        this.connected = tag.getString("Computer");
         if (CommonProxy.isOCLoaded)
         {
             if (this.node() != null)
@@ -219,6 +231,7 @@ public class TileEntityPosTerminal extends TileEntity implements IWorldNameable,
     {
         super.writeToNBT(tag);
         tag.setTag("Inventory", this.inventory.serializeNBT());
+        tag.setString("Computer", this.connected);
         if (CommonProxy.isOCLoaded)
         {
             if (this.node() != null)
@@ -234,6 +247,23 @@ public class TileEntityPosTerminal extends TileEntity implements IWorldNameable,
     // Common computer
     public static final String DEVICE_NAME = "pos_terminal";
     private static final String[] METHOD_NAMES = { "hasCard", "readCard", "writeCard" };
+    private List<String> computerList = new ArrayList<>();
+    private String connected = "";
+
+    public List<String> getComputerList()
+    {
+        return this.computerList;
+    }
+
+    public String getConnected()
+    {
+        return this.connected;
+    }
+
+    public void setConnected(String connected)
+    {
+        this.connected = connected;
+    }
 
     public Object[] invokeMethod(String method, Object... args) throws Exception
     {
@@ -276,12 +306,14 @@ public class TileEntityPosTerminal extends TileEntity implements IWorldNameable,
     @Optional.Method(modid = CommonProxy.CC_MODID)
     public void attach(IComputerAccess computer)
     {
+        this.computerList.add("" + computer.getID());
     }
 
     @Override
     @Optional.Method(modid = CommonProxy.CC_MODID)
     public void detach(IComputerAccess computer)
     {
+        this.computerList.remove("" + computer.getID());
     }
 
     @Override
@@ -297,6 +329,10 @@ public class TileEntityPosTerminal extends TileEntity implements IWorldNameable,
     {
         try
         {
+            if (!this.connected.equals("" + computer.getID()))
+            {
+                throw new LuaException("Not connect to this computer!");
+            }
             return this.invokeMethod(METHOD_NAMES[method], arguments);
         }
         catch (Exception e)
@@ -313,7 +349,7 @@ public class TileEntityPosTerminal extends TileEntity implements IWorldNameable,
     }
 
     // OpenComputers
-    private Object node = Network.newNode(this, Visibility.Network).withComponent(this.getComponentName()).withConnector(0.01D).create();
+    private Object node;
 
     @Optional.Method(modid = CommonProxy.OC_MODID)
     public String getComponentName()
@@ -332,19 +368,19 @@ public class TileEntityPosTerminal extends TileEntity implements IWorldNameable,
     @Optional.Method(modid = CommonProxy.OC_MODID)
     public void onConnect(Node node)
     {
+        this.computerList.add(node.address());
     }
 
     @Override
     @Optional.Method(modid = CommonProxy.OC_MODID)
     public void onDisconnect(Node node)
     {
+        this.computerList.remove(node.address());
     }
 
     @Override
     @Optional.Method(modid = CommonProxy.OC_MODID)
-    public void onMessage(Message message)
-    {
-    }
+    public void onMessage(Message message) {}
 
     @Override
     @Optional.Method(modid = CommonProxy.OC_MODID)
@@ -357,6 +393,10 @@ public class TileEntityPosTerminal extends TileEntity implements IWorldNameable,
     @Optional.Method(modid = CommonProxy.OC_MODID)
     public Object[] invoke(String method, Context context, Arguments args) throws Exception
     {
+        if (!this.connected.equals(context.node().address()))
+        {
+            throw new IllegalArgumentException("Not connect to this computer!");
+        }
         for (String name : METHOD_NAMES)
         {
             if (name.equals(method)) return this.invokeMethod(method, args.toArray());
