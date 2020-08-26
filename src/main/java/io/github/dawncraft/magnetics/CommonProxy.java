@@ -7,6 +7,7 @@ import io.github.dawncraft.magnetics.block.BlockPosTerminal;
 import io.github.dawncraft.magnetics.block.ModBlocks;
 import io.github.dawncraft.magnetics.container.ModGuiHandler;
 import io.github.dawncraft.magnetics.item.ModOreDictionary;
+import io.github.dawncraft.magnetics.network.ModNetworkManager;
 import io.github.dawncraft.magnetics.recipe.ModRecipes;
 import io.github.dawncraft.magnetics.world.gen.feature.ModWorldGenerators;
 import li.cil.oc.api.API;
@@ -51,6 +52,8 @@ public class CommonProxy
         ModOreDictionary.init();
         ModRecipes.init();
         ModWorldGenerators.init();
+
+        ModNetworkManager.init();
         ModGuiHandler.init();
 
         ComputerCraftAPI.registerPeripheralProvider((BlockPosTerminal) ModBlocks.POS_TERMINAL);

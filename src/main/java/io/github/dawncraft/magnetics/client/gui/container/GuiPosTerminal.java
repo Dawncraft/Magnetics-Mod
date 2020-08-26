@@ -7,6 +7,8 @@ import org.lwjgl.input.Keyboard;
 import io.github.dawncraft.magnetics.MagneticsMod;
 import io.github.dawncraft.magnetics.api.item.IItemCard;
 import io.github.dawncraft.magnetics.container.ContainerPosTerminal;
+import io.github.dawncraft.magnetics.network.MessageWriteCard;
+import io.github.dawncraft.magnetics.network.ModNetworkManager;
 import io.github.dawncraft.magnetics.tileentity.TileEntityPosTerminal;
 import net.minecraft.client.gui.GuiButton;
 import net.minecraft.client.gui.GuiTextField;
@@ -16,7 +18,6 @@ import net.minecraft.entity.player.InventoryPlayer;
 import net.minecraft.item.ItemStack;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.ResourceLocation;
-import net.minecraft.util.StringUtils;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 
@@ -33,6 +34,9 @@ public class GuiPosTerminal extends GuiContainer
     private final InventoryPlayer playerInventory;
     private final TileEntityPosTerminal tileentityPosTerminal;
 
+    private ItemStack lastCard = ItemStack.EMPTY;
+
+    private String info;
     private GuiTextField keyField;
     private GuiTextField valueField;
     private GuiButton readButton;
@@ -51,12 +55,13 @@ public class GuiPosTerminal extends GuiContainer
     {
         super.initGui();
         Keyboard.enableRepeatEvents(true);
+        this.info = "Ready.";
         this.keyField = new GuiTextField(0, this.fontRenderer, 52, 16, 50, 12);
         this.valueField = new GuiTextField(1, this.fontRenderer, 112, 16, 50, 12);
         this.buttonList.clear();
         this.readButton = this.addButton(new GuiButton(2, 52 + this.guiLeft, 32 + this.guiTop, 50, 12, "Read"));
         this.writeButton = this.addButton(new GuiButton(3, 112 + this.guiLeft, 32 + this.guiTop, 50, 12, "Write"));
-        this.linkButton = this.addButton(new GuiButton(4, 52 + this.guiLeft, 48 + this.guiTop, 100, 40, "Link"));
+        this.linkButton = this.addButton(new GuiButton(4, 52 + this.guiLeft, 48 + this.guiTop, 100, 20, "Link"));
         this.readButton.enabled = this.writeButton.enabled = false;
     }
 
@@ -74,6 +79,7 @@ public class GuiPosTerminal extends GuiContainer
         String s = this.tileentityPosTerminal.getDisplayName().getUnformattedText();
         this.fontRenderer.drawString(s, 52, 6, 0x404040);
         this.fontRenderer.drawString(this.playerInventory.getDisplayName().getUnformattedText(), 8, this.ySize - 96 + 2, 0x404040);
+        this.fontRenderer.drawString(this.info, 82, 6, 0x404040);
 
         this.keyField.drawTextBox();
         this.valueField.drawTextBox();
@@ -93,45 +99,52 @@ public class GuiPosTerminal extends GuiContainer
     {
         if (button.enabled)
         {
-            // TODO 全得改成发包
-
             if (button.id == 2)
             {
                 String key = this.keyField.getText();
                 if (key.isEmpty()) return;
-
-                ItemStack stack = this.tileentityPosTerminal.getCard();
-                if (stack.getItem() instanceof IItemCard)
-                {
-                    IItemCard itemCard = (IItemCard) stack.getItem();
-                    String value = itemCard.getData(stack, key);
-                    if (!StringUtils.isNullOrEmpty(value)) this.valueField.setText(value);
-                }
+                this.valueField.setText(MessageWriteCard.MessageWriteCardHandler.readCard(this.tileentityPosTerminal, key));
+                this.info = "read";
             }
             else if (button.id == 3)
             {
                 String key = this.keyField.getText();
                 String value = this.valueField.getText();
                 if (key.isEmpty()) return;
-
-                ItemStack stack = this.tileentityPosTerminal.getCard();
-                if (stack.getItem() instanceof IItemCard)
+                try
                 {
-                    IItemCard itemCard = (IItemCard) stack.getItem();
-                    try
-                    {
-                        itemCard.setData(stack, key, value);
-                    }
-                    catch (IItemCard.WriteException e)
-                    {
-                        this.valueField.setText("Error: " + e.reason);
-                        return;
-                    }
+                    ModNetworkManager.sendMessageToServer(MessageWriteCard.createWriteMessage(key, value));
+                    MessageWriteCard.MessageWriteCardHandler.writeCard(this.tileentityPosTerminal, key, value);
+                    this.info = "write";
+                }
+                catch (IItemCard.WriteException e)
+                {
+                    this.info = "Error: " + e.reason;
                 }
             }
             else if (button.id == 4)
             {
-
+                /*
+                List<String> list = this.tileentityPosTerminal.getComputerList();
+                if (!list.isEmpty())
+                {
+                    String id = list.get(0);
+                    if (MessageWriteCard.MessageWriteCardHandler.connect(this.tileentityPosTerminal, id))
+                    {
+                        this.info = "connect to " + id;
+                    }
+                    else
+                    {
+                        this.info = "connect failed";
+                    }
+                }
+                else
+                {
+                    this.info = "No computer connected!";
+                }
+                */
+                ModNetworkManager.sendMessageToServer(MessageWriteCard.createConnectMessage(""));
+                this.info = "Try to connect!";
             }
         }
     }
@@ -157,6 +170,17 @@ public class GuiPosTerminal extends GuiContainer
     public void updateScreen()
     {
         super.updateScreen();
+
+        if (!ItemStack.areItemStacksEqual(this.lastCard, this.tileentityPosTerminal.getLastCard()))
+        {
+            this.lastCard = this.tileentityPosTerminal.getLastCard();
+            if (this.lastCard.getItem() instanceof IItemCard)
+            {
+                IItemCard itemCard = (IItemCard) this.lastCard.getItem();
+                this.info = "Last: " + itemCard.getData(this.lastCard, "Owner") + "(" + itemCard.getData(this.lastCard, "UUID").substring(0, 6) + "*)";
+            }
+        }
+
         this.keyField.updateCursorCounter();
         this.valueField.updateCursorCounter();
     }

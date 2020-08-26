@@ -1,7 +1,9 @@
 package io.github.dawncraft.magnetics.tileentity;
 
 import java.util.ArrayList;
+import java.util.LinkedHashSet;
 import java.util.List;
+import java.util.Set;
 
 import dan200.computercraft.api.lua.ILuaContext;
 import dan200.computercraft.api.lua.LuaException;
@@ -9,10 +11,13 @@ import dan200.computercraft.api.peripheral.IComputerAccess;
 import dan200.computercraft.api.peripheral.IPeripheral;
 import io.github.dawncraft.magnetics.CommonProxy;
 import io.github.dawncraft.magnetics.api.item.IItemCard;
+import io.github.dawncraft.magnetics.network.MessageWriteCard;
+import io.github.dawncraft.magnetics.network.ModNetworkManager;
 import io.github.dawncraft.magnetics.sound.ModSounds;
 import li.cil.oc.api.Network;
 import li.cil.oc.api.machine.Arguments;
 import li.cil.oc.api.machine.Context;
+import li.cil.oc.api.machine.Machine;
 import li.cil.oc.api.network.Environment;
 import li.cil.oc.api.network.ManagedPeripheral;
 import li.cil.oc.api.network.Message;
@@ -34,6 +39,8 @@ import net.minecraft.world.IWorldNameable;
 import net.minecraft.world.World;
 import net.minecraftforge.common.capabilities.Capability;
 import net.minecraftforge.fml.common.Optional;
+import net.minecraftforge.fml.relauncher.Side;
+import net.minecraftforge.fml.relauncher.SideOnly;
 import net.minecraftforge.items.CapabilityItemHandler;
 import net.minecraftforge.items.ItemStackHandler;
 
@@ -50,6 +57,7 @@ import net.minecraftforge.items.ItemStackHandler;
 public class TileEntityPosTerminal extends TileEntity implements IWorldNameable, IPeripheral, Environment, ManagedPeripheral
 {
     private String customName;
+    private ItemStack lastCard = ItemStack.EMPTY;
     private final ItemStackHandler inventory = new ItemStackHandler()
     {
         @Override
@@ -77,6 +85,12 @@ public class TileEntityPosTerminal extends TileEntity implements IWorldNameable,
     public boolean shouldRefresh(World world, BlockPos blockPos, IBlockState oldState, IBlockState newState)
     {
         return oldState.getBlock() != newState.getBlock();
+    }
+
+    @Override
+    public void onLoad()
+    {
+
     }
 
     @Override
@@ -112,6 +126,24 @@ public class TileEntityPosTerminal extends TileEntity implements IWorldNameable,
     public void swipeCard(EntityPlayer player, ItemStack stack)
     {
         player.world.playSound(null, this.getPos(), ModSounds.BLOCK_POS_TERMINAL_SWIPE, SoundCategory.BLOCKS, 1.0F, 1.0F);
+        this.lastCard = stack.copy();
+        ModNetworkManager.sendMessageToAllTracking(MessageWriteCard.createSwipeMessage(this.getPos(), this.lastCard), this.getWorld().provider.getDimension(), this.getPos());
+    }
+
+    /**
+     * 这是上一次刷的卡,即玩家手持磁卡点击pos机,不一定是机器里放着的这张
+     *
+     * @return
+     */
+    public ItemStack getLastCard()
+    {
+        return this.lastCard;
+    }
+
+    @SideOnly(Side.CLIENT)
+    public void setLastCard(ItemStack stack)
+    {
+        this.lastCard = stack;
     }
 
     /**
@@ -247,12 +279,12 @@ public class TileEntityPosTerminal extends TileEntity implements IWorldNameable,
     // Common computer
     public static final String DEVICE_NAME = "pos_terminal";
     private static final String[] METHOD_NAMES = { "hasCard", "readCard", "writeCard" };
-    private List<String> computerList = new ArrayList<>();
+    private Set<String> computerList = new LinkedHashSet<>();
     private String connected = "";
 
     public List<String> getComputerList()
     {
-        return this.computerList;
+        return new ArrayList<>(this.computerList);
     }
 
     public String getConnected()
@@ -368,14 +400,20 @@ public class TileEntityPosTerminal extends TileEntity implements IWorldNameable,
     @Optional.Method(modid = CommonProxy.OC_MODID)
     public void onConnect(Node node)
     {
-        this.computerList.add(node.address());
+        if (node.host() instanceof Machine)
+        {
+            this.computerList.add(node.address());
+        }
     }
 
     @Override
     @Optional.Method(modid = CommonProxy.OC_MODID)
     public void onDisconnect(Node node)
     {
-        this.computerList.remove(node.address());
+        if (node.host() instanceof Machine)
+        {
+            this.computerList.remove(node.address());
+        }
     }
 
     @Override

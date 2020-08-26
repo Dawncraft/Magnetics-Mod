@@ -81,4 +81,9 @@ public class ContainerPosTerminal extends Container
         }
         return oldItemstack;
     }
+
+    public TileEntityPosTerminal getTileentityPosTerminal()
+    {
+        return this.tileentityPosTerminal;
+    }
 }

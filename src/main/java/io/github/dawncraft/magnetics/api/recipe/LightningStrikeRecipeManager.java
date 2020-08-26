@@ -19,7 +19,7 @@ public abstract class LightningStrikeRecipeManager
 
     public static interface IRecipe
     {
-        boolean matches(ItemStack input);
+        ItemStack getInputDelegate();
         ItemStack getResult(ItemStack input);
     }
 
@@ -35,15 +35,19 @@ public abstract class LightningStrikeRecipeManager
         }
 
         @Override
-        public boolean matches(ItemStack input)
+        public ItemStack getInputDelegate()
         {
-            return input.getItem() == this.input;
-        };
+            return new ItemStack(this.input);
+        }
 
         @Override
         public ItemStack getResult(ItemStack input)
         {
-            return this.output.copy();
+            if (input.getItem() == this.input)
+            {
+                return this.output.copy();
+            }
+            return ItemStack.EMPTY;
         }
     }
 

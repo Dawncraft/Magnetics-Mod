@@ -1,17 +1,20 @@
+-- lib
+local pos_terminal
+
 local function isConnected()
-  peripheral.isPresent('up')
+  peripheral.isPresent(pos_terminal)
 end
 
 local function hasCard()
-  peripheral.call('up', 'hasCard')
+  peripheral.call(pos_terminal, 'hasCard')
 end
 
 local function writeCard(key, value)
-  peripheral.call('up', 'writeCard', 'test', 'test')
+  peripheral.call(pos_terminal, 'writeCard', 'test', 'test')
 end
 
 local function readCard(key)
-  peripheral.call('up', 'readCard', 'test')
+  peripheral.call(pos_terminal, 'readCard', 'test')
 end
 
 local function test()

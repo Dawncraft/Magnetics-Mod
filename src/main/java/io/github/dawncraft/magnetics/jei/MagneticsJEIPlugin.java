@@ -1,10 +1,7 @@
 package io.github.dawncraft.magnetics.jei;
 
-import java.util.Map.Entry;
-
 import io.github.dawncraft.magnetics.MagneticsMod;
 import io.github.dawncraft.magnetics.api.recipe.LightningStrikeRecipeManager;
-import io.github.dawncraft.magnetics.api.recipe.LightningStrikeRecipeManager.IRecipe;
 import io.github.dawncraft.magnetics.block.ModBlocks;
 import io.github.dawncraft.magnetics.item.ModItems;
 import io.github.dawncraft.magnetics.recipe.LightningStrikeRecipeManagerImpl;
@@ -18,7 +15,6 @@ import mezz.jei.api.ingredients.IModIngredientRegistration;
 import mezz.jei.api.recipe.IRecipeCategoryRegistration;
 import mezz.jei.api.recipe.IRecipeWrapper;
 import mezz.jei.api.recipe.IRecipeWrapperFactory;
-import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.ResourceLocation;
 
@@ -49,15 +45,8 @@ public class MagneticsJEIPlugin implements IModPlugin
             @Override
             public IRecipeWrapper getRecipeWrapper(LightningStrikeRecipeManager.IRecipe recipe)
             {
-                for (Entry<Item, IRecipe> entry : LightningStrikeRecipeManagerImpl.INSTANCE.getRecipes().entrySet())
-                {
-                    if (entry.getValue() == recipe)
-                    {
-                        ItemStack input = new ItemStack(entry.getKey());
-                        return new LightningStrikeRecipe(input, recipe.getResult(input));
-                    }
-                }
-                return null;
+                ItemStack input = recipe.getInputDelegate();
+                return new LightningStrikeRecipe(input, recipe.getResult(input));
             }
         }, LightningStrikeRecipeCategory.LIGHTNING_STRIKE);
         registry.addRecipes(LightningStrikeRecipeManagerImpl.INSTANCE.getRecipes().values(), LightningStrikeRecipeCategory.LIGHTNING_STRIKE);
