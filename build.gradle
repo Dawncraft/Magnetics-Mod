@@ -48,10 +48,6 @@ repositories {
     name = "ic2"
     url = "http://maven.ic2.player.to/"
   }
-  // CC: Tweaked maven
-  maven { url = "https://squiddev.cc/maven/" }
-  // Open Computers maven
-  maven { url = "http://maven.cil.li/" }
 }
 
 dependencies {
@@ -61,11 +57,6 @@ dependencies {
     // 工业2
     deobfCompile "net.industrial-craft:industrialcraft-2:2.8.+:api"
     runtime "net.industrial-craft:industrialcraft-2:2.8.+"
-    // 电脑工艺重制版
-    runtime "org.squiddev:cc-tweaked-1.12.2:1.89.+"
-    // 开放式电脑
-    deobfCompile "li.cil.oc:OpenComputers:MC1.12.2-1.7.+:api"
-    runtime "li.cil.oc:OpenComputers:MC1.12.2-1.7.+"
 }
 
 processResources {
