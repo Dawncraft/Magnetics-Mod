@@ -5,10 +5,10 @@
   "description": "A mod adds something about magnetism into the game.",
   "version": "${version}",
   "mcversion": "${mcversion}",
-  "url": "",
+  "url": "https://github.com/Dawncraft/Magnetics-Mod",
   "updateUrl": "",
   "authorList": ["QingChenW"],
-  "credits": "The Forge and FML guys, for making this example",
+  "credits": "Mojang, Forge and FML",
   "logoFile": "",
   "screenshots": [],
   "dependencies": []
