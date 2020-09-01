@@ -30,7 +30,6 @@ public class ModBlocks
     public static Block MAGNET_RAIL;
 
     public static Block LIGHTNING_ARRESTER;
-    public static Block POS_TERMINAL;
 
     @SubscribeEvent
     public static void registerBlocks(RegistryEvent.Register<Block> event)
@@ -44,8 +43,7 @@ public class ModBlocks
     	        MAGNET_DOOR = new BlockMagnetDoor().setCreativeTab(flag ? ModCreativeTabs.MAGNETICS : CreativeTabs.REDSTONE).setTranslationKey("magnetDoor").setRegistryName("magnet_door"),
     	        MAGNET_RAIL = new BlockMagnetRail().setCreativeTab(flag ? ModCreativeTabs.MAGNETICS : CreativeTabs.TRANSPORTATION).setTranslationKey("magnetRail").setRegistryName("magnet_rail"),
 
-    	        LIGHTNING_ARRESTER = new BlockLightningArrester(Material.IRON).setCreativeTab(flag ? ModCreativeTabs.MAGNETICS : CreativeTabs.DECORATIONS).setTranslationKey("lightningArrester").setRegistryName("lightning_arrester"),
-    	        POS_TERMINAL = new BlockPosTerminal(Material.IRON).setCreativeTab(flag ? ModCreativeTabs.MAGNETICS : CreativeTabs.REDSTONE).setTranslationKey("posTerminal").setRegistryName("pos_terminal")
+    	        LIGHTNING_ARRESTER = new BlockLightningArrester(Material.IRON).setCreativeTab(flag ? ModCreativeTabs.MAGNETICS : CreativeTabs.DECORATIONS).setTranslationKey("lightningArrester").setRegistryName("lightning_arrester")
     	        );
 
         MAGNET_ORE.setHarvestLevel("pickaxe", 1);

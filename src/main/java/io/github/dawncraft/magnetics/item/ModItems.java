@@ -76,7 +76,6 @@ public final class ModItems
                 createItemForBlock(ModBlocks.MAGNET_CHEST),
                 createItemForBlock(ModBlocks.MAGNET_RAIL),
                 createItemForBlock(ModBlocks.LIGHTNING_ARRESTER),
-                createItemForBlock(ModBlocks.POS_TERMINAL),
 
                 MAGNET_DOOR = new ItemMagnetDoor().setCreativeTab(flag ? ModCreativeTabs.MAGNETICS : CreativeTabs.REDSTONE).setTranslationKey("magnetDoor").setRegistryName("magnet_door"),
 

@@ -15,14 +15,9 @@ import net.minecraftforge.registries.GameData;
 @Mod.EventBusSubscriber(modid = MagneticsMod.MODID)
 public class ModSounds
 {
-    public static SoundEvent BLOCK_POS_TERMINAL_SWIPE;
-
     @SubscribeEvent
     public static void onSoundEvenrRegistration(RegistryEvent.Register<SoundEvent> event)
     {
-        event.getRegistry().registerAll(
-                BLOCK_POS_TERMINAL_SWIPE = createSound("block.pos_terminal.swipe").setRegistryName("block.pos_terminal.swipe")
-                );
     }
 
     private static SoundEvent createSound(String name)

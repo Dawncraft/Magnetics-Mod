@@ -1,18 +1,10 @@
 package io.github.dawncraft.magnetics;
 
-import java.util.concurrent.Callable;
-
-import dan200.computercraft.api.ComputerCraftAPI;
-import io.github.dawncraft.magnetics.block.BlockPosTerminal;
-import io.github.dawncraft.magnetics.block.ModBlocks;
 import io.github.dawncraft.magnetics.container.ModGuiHandler;
 import io.github.dawncraft.magnetics.item.ModOreDictionary;
 import io.github.dawncraft.magnetics.network.ModNetworkManager;
 import io.github.dawncraft.magnetics.recipe.ModRecipes;
 import io.github.dawncraft.magnetics.world.gen.feature.ModWorldGenerators;
-import li.cil.oc.api.API;
-import li.cil.oc.api.fs.FileSystem;
-import net.minecraft.item.EnumDyeColor;
 import net.minecraftforge.fml.common.Loader;
 import net.minecraftforge.fml.common.event.FMLInitializationEvent;
 import net.minecraftforge.fml.common.event.FMLInterModComms.IMCEvent;
@@ -55,16 +47,6 @@ public class CommonProxy
 
         ModNetworkManager.init();
         ModGuiHandler.init();
-
-        ComputerCraftAPI.registerPeripheralProvider((BlockPosTerminal) ModBlocks.POS_TERMINAL);
-        API.items.registerFloppy("cardmanager", EnumDyeColor.GRAY, new Callable<FileSystem>()
-        {
-            @Override
-            public FileSystem call() throws Exception
-            {
-                return API.fileSystem.fromClass(MagneticsMod.class, MagneticsMod.MODID, "lua/opencomputers/card_manager");
-            }
-        }, true);
     }
 
     public void postInit(FMLPostInitializationEvent event)
