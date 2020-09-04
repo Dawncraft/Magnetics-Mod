@@ -1,4 +1,17 @@
-笔记
+# 磁学Mod
+# Magnetics Mod
+
+基于Forge开发
+
+以GPLv3协议开源
+
+API部分以LGPLv3协议开源
+
+其模型,贴图,音效等资源仅以 CC 署名(BY) - 非商业性使用(NC) - 相同方式共享(SA) 协议供wiki和教程编写者使用
+
+但其中包括但不限于合成表,战利品表,进度等资源依旧以GPLv3协议开源
+
+## 笔记
 
 - Block类的onBlockActivated方法会执行两次,分别是主手和副手
 

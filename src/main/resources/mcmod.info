@@ -9,7 +9,7 @@
   "updateUrl": "",
   "authorList": ["QingChenW"],
   "credits": "Mojang, Forge and FML",
-  "logoFile": "",
+  "logoFile": "assets/magnetics/textures/magnetics_logo.png",
   "screenshots": [],
   "dependencies": []
 }
