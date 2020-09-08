@@ -2,7 +2,6 @@ itemGroup.Magnetics=磁学
 
 item.magnet.name=磁铁
 item.magnetIngot.name=磁石锭
-item.magnetStick.name=磁力棒
 item.magnetBall.name=磁珠
 item.magnetCard.name=磁卡
 item.magnetCard.desc.blank=空白的磁卡
@@ -15,7 +14,7 @@ item.magnetDoor.desc=所有者卡号: %s
 item.magnetAxe.name=磁铁斧
 item.magnetPickaxe.name=磁铁镐
 item.magnetHammer.name=磁铁锤子
-item.magnetSpade.name=磁铁铲
+item.magnetSpade.name=磁铁锹
 item.magnetHoe.name=磁铁锄
 item.magnetSword.name=磁铁剑
 item.magnetSword.powered.name=磁能脉冲剑
@@ -29,7 +28,7 @@ item.armor.magnetics:magnet.suit_effect=拾取物品范围增加(%d/4)
 
 item.suit_effect=套装效果:
 
-tile.magnetOre.name=磁石矿
+tile.magnetOre.name=磁石矿石
 tile.magnetBlock.name=磁石块
 tile.magnetRail.name=磁力铁轨
 tile.magnetChest.name=磁力箱

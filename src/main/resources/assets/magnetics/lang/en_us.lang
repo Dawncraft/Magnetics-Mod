@@ -1,26 +1,25 @@
 itemGroup.Magnetics=Magnetics
 
 item.magnet.name=Magnet
-item.magnetIngot.name=Magnet ingot
-item.magnetStick.name=Magnet stick
-item.magnetBall.name=Magnet ball
-item.magnetCard.name=Magnet card
+item.magnetIngot.name=Magnet Ingot
+item.magnetBall.name=Magnet Ball
+item.magnetCard.name=Magnet Card
 item.magnetCard.desc.blank=blank card
 item.magnetCard.desc.id=Card ID: %s
 item.magnetCard.desc.name=Owner: %s
 item.magnetCard.desc.text=Comment: %s
-item.magnetDoor.name=Magnet door
+item.magnetDoor.name=Magnet Door
 item.magnetDoor.desc=Owner card ID: %s
 
-item.magnetAxe.name=Magnet axe
-item.magnetPickaxe.name=Magnet pickaxe
-item.magnetHammer.name=Magnet hammer
-item.magnetSpade.name=Magnet shovel
-item.magnetHoe.name=Magnet hoe
-item.magnetSword.name=Magnet sword
-item.magnetSword.powered.name=Powered magnet sword
-item.magnetWand.name=Magnet wand
-item.magnetWand.powered.name=Powered magnet wand
+item.magnetAxe.name=Magnet Axe
+item.magnetPickaxe.name=Magnet Pickaxe
+item.magnetHammer.name=Magnet Hammer
+item.magnetSpade.name=Magnet Shovel
+item.magnetHoe.name=Magnet Hoe
+item.magnetSword.name=Magnet Sword
+item.magnetSword.powered.name=Powered Magnet Sword
+item.magnetWand.name=Magnet Wand
+item.magnetWand.powered.name=Powered Magnet Wand
 item.magnetHelmet.name=Magnet Helmet
 item.magnetChestplate.name=Magnet Chestplate
 item.magnetLeggings.name=Magnet Leggings
@@ -29,12 +28,12 @@ item.armor.magnetics:magnet.suit_effect=Add item picking range(%d/4)
 
 item.suit_effect=Suit effect:
 
-tile.magnetOre.name=Magnet ore
-tile.magnetBlock.name=Magnet block
-tile.magnetRail.name=Magnet rail
-tile.magnetChest.name=Magnet chest
-tile.lightningArrester.name=Lightning arrester
-tile.posTerminal.name=POS terminal
+tile.magnetOre.name=Magnet Ore
+tile.magnetBlock.name=Magnet Block
+tile.magnetRail.name=Magnet Rail
+tile.magnetChest.name=Magnet Chest
+tile.lightningArrester.name=Lightning Arrester
+tile.posTerminal.name=POS Terminal
 
 potion.paralysis=Paralysis
 
