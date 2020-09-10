@@ -3,7 +3,7 @@ package io.github.dawncraft.magnetics;
 import java.util.concurrent.Callable;
 
 import dan200.computercraft.api.ComputerCraftAPI;
-import io.github.dawncraft.magnetics.block.BlockPosTerminal;
+import dan200.computercraft.api.peripheral.IPeripheralProvider;
 import io.github.dawncraft.magnetics.block.ModBlocks;
 import io.github.dawncraft.magnetics.container.ModGuiHandler;
 import io.github.dawncraft.magnetics.item.ModOreDictionary;
@@ -56,15 +56,18 @@ public class CommonProxy
         ModNetworkManager.init();
         ModGuiHandler.init();
 
-        ComputerCraftAPI.registerPeripheralProvider((BlockPosTerminal) ModBlocks.POS_TERMINAL);
-        API.items.registerFloppy("cardmanager", EnumDyeColor.GRAY, new Callable<FileSystem>()
+        if (isCCLoaded)
         {
-            @Override
-            public FileSystem call() throws Exception
+            ComputerCraftAPI.registerPeripheralProvider((IPeripheralProvider) ModBlocks.POS_TERMINAL);
+            API.items.registerFloppy("cardmanager", EnumDyeColor.GRAY, new Callable<FileSystem>()
             {
-                return API.fileSystem.fromClass(MagneticsMod.class, MagneticsMod.MODID, "lua/opencomputers/card_manager");
-            }
-        }, true);
+                @Override
+                public FileSystem call() throws Exception
+                {
+                    return API.fileSystem.fromClass(MagneticsMod.class, MagneticsMod.MODID, "lua/opencomputers/card_manager");
+                }
+            }, true);
+        }
     }
 
     public void postInit(FMLPostInitializationEvent event)

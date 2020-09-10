@@ -201,6 +201,6 @@ public class BlockPosTerminal extends BlockContainer implements IPeripheralProvi
     public IPeripheral getPeripheral(World world, BlockPos pos, EnumFacing side)
     {
         TileEntity tileentity = world.getTileEntity(pos);
-        return (tileentity instanceof TileEntityPosTerminal) ? (TileEntityPosTerminal) tileentity : null;
+        return (tileentity instanceof IPeripheral) ? (IPeripheral) tileentity : null;
     }
 }

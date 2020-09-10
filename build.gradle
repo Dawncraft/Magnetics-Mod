@@ -12,7 +12,7 @@ buildscript {
 apply plugin: 'net.minecraftforge.gradle.forge'
 // Only edit below this line, the above code adds and enables the necessary things for Forge to be setup.
 
-version = '1.2.0'
+version = '1.2.1'
 group = 'io.github.dawncraft'
 archivesBaseName = 'magnetics'
 
@@ -59,12 +59,12 @@ dependencies {
     deobfProvided "mezz.jei:jei_1.12.2:4.15.0.+:api"
     runtime "mezz.jei:jei_1.12.2:4.15.0.+"
     // 工业2
-    deobfCompile "net.industrial-craft:industrialcraft-2:2.8.+:api"
+    deobfProvided "net.industrial-craft:industrialcraft-2:2.8.+:api"
     runtime "net.industrial-craft:industrialcraft-2:2.8.+"
     // 电脑工艺重制版
-    runtime "org.squiddev:cc-tweaked-1.12.2:1.89.+"
+    deobfCompile "org.squiddev:cc-tweaked-1.12.2:1.89.+"
     // 开放式电脑
-    deobfCompile "li.cil.oc:OpenComputers:MC1.12.2-1.7.+:api"
+    deobfProvided "li.cil.oc:OpenComputers:MC1.12.2-1.7.+:api"
     runtime "li.cil.oc:OpenComputers:MC1.12.2-1.7.+"
 }
 

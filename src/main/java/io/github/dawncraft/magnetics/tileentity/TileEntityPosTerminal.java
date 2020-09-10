@@ -1,5 +1,6 @@
 package io.github.dawncraft.magnetics.tileentity;
 
+import java.lang.reflect.Method;
 import java.util.ArrayList;
 import java.util.LinkedHashSet;
 import java.util.List;
@@ -23,7 +24,6 @@ import li.cil.oc.api.network.ManagedPeripheral;
 import li.cil.oc.api.network.Message;
 import li.cil.oc.api.network.Node;
 import li.cil.oc.api.network.Visibility;
-import li.cil.oc.common.asm.SimpleComponentTickHandler;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
@@ -51,7 +51,7 @@ import net.minecraftforge.items.ItemStackHandler;
  */
 @Optional.InterfaceList({
     @Optional.Interface(iface = "dan200.computercraft.api.peripheral.IPeripheral", modid = CommonProxy.CC_MODID),
-    @Optional.Interface(iface = "li.cil.oc.api.network.SimpleComponent", modid = CommonProxy.OC_MODID),
+    @Optional.Interface(iface = "li.cil.oc.api.network.Environment", modid = CommonProxy.OC_MODID),
     @Optional.Interface(iface = "li.cil.oc.api.network.ManagedPeripheral", modid = CommonProxy.OC_MODID)
 })
 public class TileEntityPosTerminal extends TileEntity implements IWorldNameable, IPeripheral, Environment, ManagedPeripheral
@@ -99,7 +99,16 @@ public class TileEntityPosTerminal extends TileEntity implements IWorldNameable,
         super.validate();
         if (CommonProxy.isOCLoaded)
         {
-            SimpleComponentTickHandler.schedule(this);
+            try
+            {
+                Class clazz = Class.forName("li.cil.oc.common.asm.SimpleComponentTickHandler");
+                Method method = clazz.getMethod("schedule", TileEntity.class);
+                method.invoke(null, this);
+            }
+            catch (Exception e)
+            {
+                e.printStackTrace();
+            }
         }
     }
 
