@@ -27,7 +27,12 @@ import li.cil.oc.api.network.Visibility;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
+import net.minecraft.nbt.NBTBase;
 import net.minecraft.nbt.NBTTagCompound;
+import net.minecraft.nbt.NBTTagList;
+import net.minecraft.nbt.NBTTagString;
+import net.minecraft.network.NetworkManager;
+import net.minecraft.network.play.server.SPacketUpdateTileEntity;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.EnumFacing;
 import net.minecraft.util.SoundCategory;
@@ -38,6 +43,7 @@ import net.minecraft.util.text.TextComponentTranslation;
 import net.minecraft.world.IWorldNameable;
 import net.minecraft.world.World;
 import net.minecraftforge.common.capabilities.Capability;
+import net.minecraftforge.common.util.Constants;
 import net.minecraftforge.fml.common.Optional;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
@@ -237,6 +243,39 @@ public class TileEntityPosTerminal extends TileEntity implements IWorldNameable,
     }
 
     @Override
+    public NBTTagCompound getUpdateTag()
+    {
+        return this.writeToNBT(new NBTTagCompound());
+    }
+
+    @Override
+    public SPacketUpdateTileEntity getUpdatePacket()
+    {
+        NBTTagCompound tag = new NBTTagCompound();
+        tag.setString("Connect", this.connected);
+        NBTTagList list = new NBTTagList();
+        for (String s : this.computerList)
+        {
+            list.appendTag(new NBTTagString(s));
+        }
+        tag.setTag("List", list);
+        return new SPacketUpdateTileEntity(this.getPos(), 0, tag);
+    }
+
+    @Override
+    public void onDataPacket(NetworkManager manager, SPacketUpdateTileEntity packet)
+    {
+        NBTTagCompound tag = packet.getNbtCompound();
+        this.connected = tag.getString("Connect");
+        NBTTagList list = tag.getTagList("List", Constants.NBT.TAG_STRING);
+        this.computerList.clear();
+        for (NBTBase tagString : list)
+        {
+            this.computerList.add(((NBTTagString) tagString).getString());
+        }
+    }
+
+    @Override
     public boolean hasCapability(Capability<?> capability, EnumFacing facing)
     {
         return capability == CapabilityItemHandler.ITEM_HANDLER_CAPABILITY || super.hasCapability(capability, facing);
@@ -257,7 +296,7 @@ public class TileEntityPosTerminal extends TileEntity implements IWorldNameable,
     {
         super.readFromNBT(tag);
         this.inventory.deserializeNBT(tag.getCompoundTag("Inventory"));
-        this.connected = tag.getString("Computer");
+        this.connected = tag.getString("Connect");
         if (CommonProxy.isOCLoaded)
         {
             if (this.node() != null)
@@ -272,7 +311,7 @@ public class TileEntityPosTerminal extends TileEntity implements IWorldNameable,
     {
         super.writeToNBT(tag);
         tag.setTag("Inventory", this.inventory.serializeNBT());
-        tag.setString("Computer", this.connected);
+        tag.setString("Connect", this.connected);
         if (CommonProxy.isOCLoaded)
         {
             if (this.node() != null)
@@ -282,6 +321,17 @@ public class TileEntityPosTerminal extends TileEntity implements IWorldNameable,
                 tag.setTag("oc:node", tagNode);
             }
         }
+        return tag;
+    }
+
+    /**
+     * 不知道需不需要 = =
+     *
+     * @param tag
+     * @return
+     */
+    private NBTTagCompound writeExternal(NBTTagCompound tag)
+    {
         return tag;
     }
 
