@@ -164,7 +164,7 @@ public class BlockPosTerminal extends BlockContainer implements IPeripheralProvi
                 ItemStack stack = player.getHeldItem(hand);
                 if (stack.getItem() instanceof IItemCard)
                 {
-                    tileentityPosTerminal.swipeCard(player, stack);
+                    tileentityPosTerminal.onCardSwiped(player, stack);
                     player.addStat(ModStats.CARD_SWIPE);
                 }
                 else

@@ -12,8 +12,6 @@ import dan200.computercraft.api.peripheral.IComputerAccess;
 import dan200.computercraft.api.peripheral.IPeripheral;
 import io.github.dawncraft.magnetics.CommonProxy;
 import io.github.dawncraft.magnetics.api.item.IItemCard;
-import io.github.dawncraft.magnetics.network.MessageWriteCard;
-import io.github.dawncraft.magnetics.network.ModNetworkManager;
 import io.github.dawncraft.magnetics.sound.ModSounds;
 import li.cil.oc.api.Network;
 import li.cil.oc.api.machine.Arguments;
@@ -26,6 +24,7 @@ import li.cil.oc.api.network.Node;
 import li.cil.oc.api.network.Visibility;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTBase;
 import net.minecraft.nbt.NBTTagCompound;
@@ -33,6 +32,7 @@ import net.minecraft.nbt.NBTTagList;
 import net.minecraft.nbt.NBTTagString;
 import net.minecraft.network.NetworkManager;
 import net.minecraft.network.play.server.SPacketUpdateTileEntity;
+import net.minecraft.server.management.PlayerChunkMapEntry;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.EnumFacing;
 import net.minecraft.util.SoundCategory;
@@ -42,11 +42,10 @@ import net.minecraft.util.text.TextComponentString;
 import net.minecraft.util.text.TextComponentTranslation;
 import net.minecraft.world.IWorldNameable;
 import net.minecraft.world.World;
+import net.minecraft.world.WorldServer;
 import net.minecraftforge.common.capabilities.Capability;
 import net.minecraftforge.common.util.Constants;
 import net.minecraftforge.fml.common.Optional;
-import net.minecraftforge.fml.relauncher.Side;
-import net.minecraftforge.fml.relauncher.SideOnly;
 import net.minecraftforge.items.CapabilityItemHandler;
 import net.minecraftforge.items.ItemStackHandler;
 
@@ -138,27 +137,27 @@ public class TileEntityPosTerminal extends TileEntity implements IWorldNameable,
         }
     }
 
-    public void swipeCard(EntityPlayer player, ItemStack stack)
+    /**
+     * 当POS机被刷卡时
+     *
+     * @param player
+     * @param stack
+     */
+    public void onCardSwiped(EntityPlayer player, ItemStack stack)
     {
         player.world.playSound(null, this.getPos(), ModSounds.BLOCK_POS_TERMINAL_SWIPE, SoundCategory.BLOCKS, 1.0F, 1.0F);
         this.lastCard = stack.copy();
-        ModNetworkManager.sendMessageToAllTracking(MessageWriteCard.createSwipeMessage(this.getPos(), this.lastCard), this.getWorld().provider.getDimension(), this.getPos());
+        this.sendUpdatePacket();
     }
 
     /**
-     * 这是上一次刷的卡,即玩家手持磁卡点击pos机,不一定是机器里放着的这张
+     * 这是上一次刷的卡,即玩家手持磁卡点击POS机,不一定是机器里放着的这张
      *
      * @return
      */
     public ItemStack getLastCard()
     {
         return this.lastCard;
-    }
-
-    @SideOnly(Side.CLIENT)
-    public void setLastCard(ItemStack stack)
-    {
-        this.lastCard = stack;
     }
 
     /**
@@ -252,6 +251,7 @@ public class TileEntityPosTerminal extends TileEntity implements IWorldNameable,
     public SPacketUpdateTileEntity getUpdatePacket()
     {
         NBTTagCompound tag = new NBTTagCompound();
+        tag.setTag("Last", this.lastCard.writeToNBT(new NBTTagCompound()));
         tag.setString("Connect", this.connected);
         NBTTagList list = new NBTTagList();
         for (String s : this.computerList)
@@ -266,12 +266,29 @@ public class TileEntityPosTerminal extends TileEntity implements IWorldNameable,
     public void onDataPacket(NetworkManager manager, SPacketUpdateTileEntity packet)
     {
         NBTTagCompound tag = packet.getNbtCompound();
+        this.lastCard = new ItemStack(tag.getCompoundTag("Last"));
         this.connected = tag.getString("Connect");
         NBTTagList list = tag.getTagList("List", Constants.NBT.TAG_STRING);
         this.computerList.clear();
         for (NBTBase tagString : list)
         {
             this.computerList.add(((NBTTagString) tagString).getString());
+        }
+    }
+
+    public void sendUpdatePacket()
+    {
+        if (!this.getWorld().isRemote)
+        {
+            SPacketUpdateTileEntity packet = this.getUpdatePacket();
+            PlayerChunkMapEntry trackingEntry = ((WorldServer) this.getWorld()).getPlayerChunkMap().getEntry(this.getPos().getX() >> 4, this.getPos().getZ() >> 4);
+            if (trackingEntry != null)
+            {
+                for (EntityPlayerMP player : trackingEntry.getWatchingPlayers())
+                {
+                    player.connection.sendPacket(packet);
+                }
+            }
         }
     }
 
@@ -296,6 +313,7 @@ public class TileEntityPosTerminal extends TileEntity implements IWorldNameable,
     {
         super.readFromNBT(tag);
         this.inventory.deserializeNBT(tag.getCompoundTag("Inventory"));
+        this.lastCard = new ItemStack(tag.getCompoundTag("Last"));
         this.connected = tag.getString("Connect");
         if (CommonProxy.isOCLoaded)
         {
@@ -311,6 +329,7 @@ public class TileEntityPosTerminal extends TileEntity implements IWorldNameable,
     {
         super.writeToNBT(tag);
         tag.setTag("Inventory", this.inventory.serializeNBT());
+        tag.setTag("Last", this.lastCard.writeToNBT(new NBTTagCompound()));
         tag.setString("Connect", this.connected);
         if (CommonProxy.isOCLoaded)
         {
@@ -354,6 +373,7 @@ public class TileEntityPosTerminal extends TileEntity implements IWorldNameable,
     public void setConnected(String connected)
     {
         this.connected = connected;
+        this.sendUpdatePacket();
     }
 
     public Object[] invokeMethod(String method, Object... args) throws Exception
@@ -398,6 +418,7 @@ public class TileEntityPosTerminal extends TileEntity implements IWorldNameable,
     public void attach(IComputerAccess computer)
     {
         this.computerList.add("" + computer.getID());
+        this.sendUpdatePacket();
     }
 
     @Override
@@ -405,6 +426,7 @@ public class TileEntityPosTerminal extends TileEntity implements IWorldNameable,
     public void detach(IComputerAccess computer)
     {
         this.computerList.remove("" + computer.getID());
+        this.sendUpdatePacket();
     }
 
     @Override
@@ -462,6 +484,7 @@ public class TileEntityPosTerminal extends TileEntity implements IWorldNameable,
         if (node.host() instanceof Machine)
         {
             this.computerList.add(node.address());
+            this.sendUpdatePacket();
         }
     }
 
@@ -472,6 +495,7 @@ public class TileEntityPosTerminal extends TileEntity implements IWorldNameable,
         if (node.host() instanceof Machine)
         {
             this.computerList.remove(node.address());
+            this.sendUpdatePacket();
         }
     }
 

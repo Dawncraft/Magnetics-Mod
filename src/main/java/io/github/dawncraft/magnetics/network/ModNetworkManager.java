@@ -20,7 +20,6 @@ public class ModNetworkManager
     public static void init()
     {
         registerMessage(MessageWriteCard.class, MessageWriteCard.MessageWriteCardHandler.class, Side.SERVER);
-        registerMessage(MessageWriteCard.class, MessageWriteCard.MessageWriteCardHandler.class, Side.CLIENT);
     }
 
     private static <REQ extends IMessage, REPLY extends IMessage> void registerMessage(Class<REQ> requestMessage, Class<? extends IMessageHandler<REQ, REPLY>> messageHandler, Side handlerSide)

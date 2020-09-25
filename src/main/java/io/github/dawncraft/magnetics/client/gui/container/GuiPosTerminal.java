@@ -1,6 +1,7 @@
 package io.github.dawncraft.magnetics.client.gui.container;
 
 import java.io.IOException;
+import java.util.List;
 
 import org.lwjgl.input.Keyboard;
 
@@ -124,27 +125,17 @@ public class GuiPosTerminal extends GuiContainer
             }
             else if (button.id == 4)
             {
-                /*
                 List<String> list = this.tileentityPosTerminal.getComputerList();
                 if (!list.isEmpty())
                 {
                     String id = list.get(0);
-                    if (MessageWriteCard.MessageWriteCardHandler.connect(this.tileentityPosTerminal, id))
-                    {
-                        this.info = "connect to " + id;
-                    }
-                    else
-                    {
-                        this.info = "connect failed";
-                    }
+                    ModNetworkManager.sendMessageToServer(MessageWriteCard.createConnectMessage(id));
+                    this.info = "Try to connect to " + id;
                 }
                 else
                 {
                     this.info = "No computer connected!";
                 }
-                */
-                ModNetworkManager.sendMessageToServer(MessageWriteCard.createConnectMessage(""));
-                this.info = "Try to connect!";
             }
         }
     }
