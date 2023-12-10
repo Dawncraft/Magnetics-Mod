@@ -62,6 +62,8 @@ public final class ModItems
     public static final Item RE_BATTERY = null;
     @ObjectHolder("ic2:advanced_re_battery")
     public static final Item ADVANCED_RE_BATTERY = null;
+    @ObjectHolder("ic2:itembatre")
+    public static final Item ITEMBATRE = null;
 
     @SubscribeEvent
     public static void registerItems(RegistryEvent.Register<Item> event)

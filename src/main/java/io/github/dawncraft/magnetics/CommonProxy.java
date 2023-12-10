@@ -59,6 +59,9 @@ public class CommonProxy
         if (isCCLoaded)
         {
             ComputerCraftAPI.registerPeripheralProvider((IPeripheralProvider) ModBlocks.POS_TERMINAL);
+        }
+        if (isOCLoaded)
+        {
             API.items.registerFloppy("cardmanager", EnumDyeColor.GRAY, new Callable<FileSystem>()
             {
                 @Override

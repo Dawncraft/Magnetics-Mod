@@ -24,3 +24,5 @@ API部分以LGPLv3协议开源
 - 注册药水时调用registerPotionAttributeModifier要在setPotionName之后
 
 - 如果想让方块用工具挖掘的话调用Block类的setHarvestLevel(工具种类, 等级)
+
+- 升级ForgeGradle后FML报错: https://stackoverflow.com/questions/68377027/minecraft-forge-mod-loader-fml-loading-and-crashing-mc

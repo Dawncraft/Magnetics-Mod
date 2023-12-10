@@ -1,18 +1,20 @@
 buildscript {
     repositories {
         // maven { url = 'https://maven.aliyun.com/repository/central' }
-        // maven { url = "https://lss233.com/artifactory/minecraft" }
-        jcenter()
-        maven { url = "https://files.minecraftforge.net/maven" }
+        mavenCentral()
+        // maven { url = 'https://lss233.com/artifactory/minecraft' }
+        maven { url = 'https://maven.minecraftforge.net/' }
     }
     dependencies {
-        classpath 'net.minecraftforge.gradle:ForgeGradle:2.3-SNAPSHOT'
+        classpath 'net.minecraftforge.gradle:ForgeGradle:5.1.+'
     }
 }
-apply plugin: 'net.minecraftforge.gradle.forge'
+apply plugin: 'net.minecraftforge.gradle'
 // Only edit below this line, the above code adds and enables the necessary things for Forge to be setup.
+apply plugin: 'eclipse'
+apply plugin: 'maven-publish'
 
-version = '1.2.1'
+version = '1.2.2'
 group = 'io.github.dawncraft'
 archivesBaseName = 'magnetics'
 
@@ -23,67 +25,125 @@ compileJava {
 
 [compileJava, compileTestJava, javadoc]*.options*.encoding = 'UTF-8'
 
+legacy {
+    fixClasspath = true
+    extractMappings = true
+}
+
 minecraft {
-    version = "1.12.2-14.23.5.2847"
-    mappings = "stable_39"
-    runDir = "run"
+    mappings channel: 'stable', version: '39-1.12'
     // makeObfSourceJar = false
+
+    accessTransformer = file('src/main/resources/META-INF/magnetics_at.cfg')
+
+    runs {
+        client {
+            workingDirectory project.file('run')
+            property 'forge.logging.markers', 'SCAN,REGISTRIES,REGISTRYDUMP'
+            property 'forge.logging.console.level', 'debug'
+            mods {
+                magnetics {
+                    source sourceSets.main
+                }
+            }
+        }
+
+        server {
+            property 'forge.logging.markers', 'SCAN,REGISTRIES,REGISTRYDUMP'
+            property 'forge.logging.console.level', 'debug'
+            mods {
+                magnetics {
+                    source sourceSets.main
+                }
+            }
+        }
+    }
 }
 
 repositories {
-/*
-  maven {
-    // JEI maven
-    name = "Progwml6 maven"
-    url = "https://dvs1.progwml6.com/files/maven/"
-  }
-*/
-  maven {
-    // location of a maven mirror for JEI files, as a fallback
-    name = "ModMaven"
-    url = "https://modmaven.k-4u.nl"
-  }
-  maven {
-    // ic2 maven
-    name = "ic2"
-    url = "http://maven.ic2.player.to/"
-  }
-  // CC: Tweaked maven
-  maven { url = "https://squiddev.cc/maven/" }
-  // Open Computers maven
-  maven { url = "http://maven.cil.li/" }
+    /*
+    maven {
+        // JEI maven
+        name = 'Progwml6 maven'
+        url = 'https://dvs1.progwml6.com/files/maven/'
+    }
+    */
+    maven {
+        // location of a maven mirror for JEI files, as a fallback
+        name = 'ModMaven'
+        url = 'https://modmaven.dev/'
+    }
+    /*
+    maven {
+        // ic2 maven
+        name = 'ic2'
+        url = 'http://maven.ic2.player.to/'
+        content {
+            includeGroup 'net.industrial-craft'
+        }
+    }
+    */
+    // CC: Tweaked maven
+    maven {
+        url = 'https://squiddev.cc/maven/'
+        content {
+            includeGroup 'org.squiddev'
+        }
+    }
+    // Open Computers maven
+    maven {
+        url = 'http://maven.cil.li/'
+        allowInsecureProtocol = true
+        content {
+            includeGroup 'li.cil.oc'
+        }
+    }
 }
 
 dependencies {
-    // jei集成
-    deobfProvided "mezz.jei:jei_1.12.2:4.15.0.+:api"
-    runtime "mezz.jei:jei_1.12.2:4.15.0.+"
+    minecraft 'net.minecraftforge:forge:1.12.2-14.23.5.2860'
+    // This version not contains Side.BUKKIT which 1.12 FML does not expect
+    implementation ('net.minecraftforge:mergetool:0.2.3.3') { force = true }
+    // jei
+    compileOnly fg.deobf('mezz.jei:jei_1.12.2:4.16.1.+:api')
+//    runtimeOnly fg.deobf('mezz.jei:jei_1.12.2:4.16.1.+')
     // 工业2
-    deobfProvided "net.industrial-craft:industrialcraft-2:2.8.+:api"
-    runtime "net.industrial-craft:industrialcraft-2:2.8.+"
+    compileOnly fg.deobf('net.industrial-craft:industrialcraft-2:2.8.+:api')
+//    runtimeOnly fg.deobf('net.industrial-craft:industrialcraft-2:2.8.+')
     // 电脑工艺重制版
-    deobfCompile "org.squiddev:cc-tweaked-1.12.2:1.89.+"
+    implementation fg.deobf('org.squiddev:cc-tweaked-1.12.2:1.89.+')
     // 开放式电脑
-    deobfProvided "li.cil.oc:OpenComputers:MC1.12.2-1.7.+:api"
-    runtime "li.cil.oc:OpenComputers:MC1.12.2-1.7.+"
-}
-
-processResources {
-    inputs.property "version", project.version
-    inputs.property "mcversion", project.minecraft.version
-
-    from(sourceSets.main.resources.srcDirs) {
-        include 'mcmod.info'
-        expand 'version':project.version, 'mcversion':project.minecraft.version
-    }
-
-    from(sourceSets.main.resources.srcDirs) {
-        exclude 'mcmod.info'
-    }
+    compileOnly fg.deobf('li.cil.oc:OpenComputers:MC1.12.2-1.7.+:api')
+//    runtimeOnly fg.deobf('li.cil.oc:OpenComputers:MC1.12.2-1.7.+')
+    // FIXME dependencies中的AccessTransformer未应用
 }
 
 jar {
     manifest {
-        attributes 'FMLAT': 'magnetics_at.cfg'
+        attributes ([
+            "FMLAT": "magnetics_at.cfg",
+            "Specification-Title": "Magnetics",
+            "Specification-Vendor": "Dawncraft",
+            "Specification-Version": "1",
+            "Implementation-Title": project.name,
+            "Implementation-Version": "${version}",
+            "Implementation-Vendor": "Dawncraft",
+            "Implementation-Timestamp": new Date().format("yyyy-MM-dd'T'HH:mm:ssZ")
+        ])
+    }
+}
+
+jar.finalizedBy('reobfJar')
+
+publishing {
+    publications {
+        mavenJava(MavenPublication) {
+            artifact jar
+        }
+    }
+    repositories {
+        maven {
+            url "file:///${project.projectDir}/mcmodsrepo"
+        }
     }
 }

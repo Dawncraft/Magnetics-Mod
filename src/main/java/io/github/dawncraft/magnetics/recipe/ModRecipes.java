@@ -48,8 +48,12 @@ public class ModRecipes
         });
         if (CommonProxy.isIC2Loaded)
         {
-            registerLightningStrikeRecipe(ModItems.RE_BATTERY, new BatteryChargeRecipe(ModItems.RE_BATTERY));
-            registerLightningStrikeRecipe(ModItems.ADVANCED_RE_BATTERY, new BatteryChargeRecipe(ModItems.ADVANCED_RE_BATTERY));
+            if (ModItems.RE_BATTERY != null)
+                registerLightningStrikeRecipe(ModItems.RE_BATTERY, new BatteryChargeRecipe(ModItems.RE_BATTERY));
+            if (ModItems.ADVANCED_RE_BATTERY != null)
+                registerLightningStrikeRecipe(ModItems.ADVANCED_RE_BATTERY, new BatteryChargeRecipe(ModItems.ADVANCED_RE_BATTERY));
+            if (ModItems.ITEMBATRE != null)
+                registerLightningStrikeRecipe(ModItems.ITEMBATRE, new BatteryChargeRecipe(ModItems.ITEMBATRE));
         }
     }
 
@@ -127,7 +131,8 @@ public class ModRecipes
             stack.setTagCompound(new NBTTagCompound());
             if (CommonProxy.isIC2Loaded)
             {
-                if (this.input == ModItems.RE_BATTERY || this.input == ModItems.ADVANCED_RE_BATTERY)
+                if (this.input == ModItems.RE_BATTERY || this.input == ModItems.ADVANCED_RE_BATTERY ||
+                    this.input == ModItems.ITEMBATRE)
                 {
                     stack.getTagCompound().setDouble("charge", 0.0D);
                 }
@@ -142,7 +147,7 @@ public class ModRecipes
             if (!output.hasTagCompound()) output.setTagCompound(new NBTTagCompound());
             if (CommonProxy.isIC2Loaded)
             {
-                if (this.input == ModItems.RE_BATTERY)
+                if (this.input == ModItems.RE_BATTERY || this.input == ModItems.ITEMBATRE)
                 {
                     output.getTagCompound().setDouble("charge", 10000.0D);
                 }
